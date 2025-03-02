@@ -53,20 +53,40 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-function toggleMoreProjects() {
-  const additionalProjects = document.getElementById('additional-projects');
-  const viewMoreBtn = document.querySelector('.view-more-btn');
+document.addEventListener("DOMContentLoaded", function () {
+  // Function to toggle "More Details" sections
+  const detailButtons = document.querySelectorAll(".more-details-btn");
 
-  if (additionalProjects.classList.contains('hidden')) {
-    // Show more projects
-    additionalProjects.classList.remove('hidden');
-    viewMoreBtn.textContent = 'Show Less';
-  } else {
-    // Hide them again
-    additionalProjects.classList.add('hidden');
-    viewMoreBtn.textContent = 'View More Projects';
+  detailButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+      const projectCard = this.closest(".project-card");
+      const details = projectCard.querySelector(".project-details");
+
+      if (details.style.display === "none" || details.style.display === "") {
+        details.style.display = "block";
+        this.textContent = "Less Details";
+      } else {
+        details.style.display = "none";
+        this.textContent = "More Details";
+      }
+    });
+  });
+
+  // Function to toggle additional projects
+  function toggleMoreProjects() {
+    const additionalProjects = document.getElementById('additional-projects');
+    const viewMoreBtn = document.querySelector('.view-more-btn');
+
+    if (additionalProjects.classList.contains('hidden')) {
+      // Show more projects
+      additionalProjects.classList.remove('hidden');
+      viewMoreBtn.textContent = 'Show Less';
+    } else {
+      // Hide them again
+      additionalProjects.classList.add('hidden');
+      viewMoreBtn.textContent = 'View More Projects';
+    }
   }
-}
 
 document.addEventListener('DOMContentLoaded', () => {
   const contactForm = document.getElementById('contact-form');
