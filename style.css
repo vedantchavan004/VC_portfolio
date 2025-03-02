@@ -459,7 +459,19 @@ nav a:hover {
   padding: 4vh 5%;
   background: #fff;
 }
-
+#projects .section__text__p1 {
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  letter-spacing: 1.5px;
+  color: #777;
+  text-align: center;
+  margin-bottom: 1vh;
+}
+#projects .title {
+  text-align: center;
+  font-size: clamp(2.5rem, 3vw, 3rem);
+  color: #333;
+  margin-bottom: 3vh;
+}
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -467,11 +479,9 @@ nav a:hover {
   justify-items: center;
   margin-bottom: 3vh;
 }
-
 .hidden {
   display: none;
 }
-
 .project-card {
   background: #fdfdfd;
   border-radius: 1rem;
