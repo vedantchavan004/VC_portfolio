@@ -54,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Function to toggle "More Details" sections
   const detailButtons = document.querySelectorAll(".more-details-btn");
 
   detailButtons.forEach((button) => {
@@ -62,6 +61,21 @@ document.addEventListener("DOMContentLoaded", function () {
       const projectCard = this.closest(".project-card");
       const details = projectCard.querySelector(".project-details");
 
+      // Close all other project details first
+      document.querySelectorAll(".project-details").forEach((detail) => {
+        if (detail !== details) {
+          detail.style.display = "none";
+        }
+      });
+
+      // Reset all button texts except the current one
+      detailButtons.forEach((btn) => {
+        if (btn !== this) {
+          btn.textContent = "More Details";
+        }
+      });
+
+      // Toggle the clicked project's details
       if (details.style.display === "none" || details.style.display === "") {
         details.style.display = "block";
         this.textContent = "Less Details";
@@ -72,21 +86,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Function to toggle additional projects
+  // Function to toggle additional projects visibility
   function toggleMoreProjects() {
     const additionalProjects = document.getElementById('additional-projects');
     const viewMoreBtn = document.querySelector('.view-more-btn');
 
     if (additionalProjects.classList.contains('hidden')) {
-      // Show more projects
       additionalProjects.classList.remove('hidden');
       viewMoreBtn.textContent = 'Show Less';
     } else {
-      // Hide them again
       additionalProjects.classList.add('hidden');
       viewMoreBtn.textContent = 'View More Projects';
     }
   }
+
+  // Attach event listener to the "View More Projects" button
+  document.querySelector(".view-more-btn").addEventListener("click", toggleMoreProjects);
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   const contactForm = document.getElementById('contact-form');
