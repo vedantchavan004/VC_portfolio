@@ -340,6 +340,38 @@
           </div>
         </div>
     
+        <!-- Project 2.5 -->
+        <div class="project-card">
+          <div class="project-img-container">
+            <img src="./assets/night_cars_result_1.png" alt="Project 3" class="project-img" />
+          </div>
+          <h2 class="project-title">Object Detection & Segmentation with FastAPI and AWS</h2>
+          <p class="project-info">
+            This project implements real-time object detection and segmentation using the YOLOv11 segmentation model. It is deployed using FastAPI, containerized with Docker, and hosted on AWS EC2 with AWS ECR for image management. The entire deployment is automated via GitHub Actions CI/CD.
+          </p>
+
+          <!-- More Details -->
+          <div class="project-details hidden">
+            <ul>
+              <li>Real-Time Object Detection & Segmentation: Uses YOLOv11 for accurate instance segmentation.</li>
+              <li>FastAPI Backend: Serves the model predictions via REST API.</li>
+              <li>User-Friendly Web Interface: Allows users to upload images and view detected objects.</li> 
+              <li>Dockerized & Cloud-Hosted: Containerized using Docker, pushed to AWS ECR, and deployed on AWS EC2.</li>
+              <li>Automated CI/CD Pipeline: Uses GitHub Actions for continuous deployment.</li>
+            </ul>
+          </div>
+
+          <div class="btn-container">
+            <button class="btn project-btn" onclick="window.open('https://github.com/vedantchavan004/Image-Segmentation-AWS-MLOps', '_blank', 'noopener,noreferrer')">
+              Github
+            </button>
+            <button class="btn project-btn more-details-btn">More Details</button>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Additional Projects (Hidden by default) -->
+      <div class="projects-grid hidden" id="additional-projects">
         <!-- Project 3 -->
         <div class="project-card">
           <div class="project-img-container">
@@ -366,10 +398,6 @@
             <button class="btn project-btn more-details-btn">More Details</button>
           </div>
         </div>
-      </div>
-    
-      <!-- Additional Projects (Hidden by default) -->
-      <div class="projects-grid hidden" id="additional-projects">
         <!-- Project 4 -->
         <div class="project-card">
           <div class="project-img-container">
