@@ -519,7 +519,7 @@ nav a:hover {
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   #experience {
-    padding: 2vh 0; /* Remove side padding to allow edge-to-edge */
+    padding: 2vh 0;
   }
 
   .experience-grid {
@@ -536,9 +536,14 @@ nav a:hover {
     box-shadow: none;
   }
 
+  /* 👇 Force stacked layout for HELLA experience columns */
+  .experience-split {
+    flex-direction: column;
+  }
+
   .experience-column {
+    flex: 1 1 100%;
     border-radius: 0;
-    background-color: #e1eef1;
   }
 }
 /* PROJECTS */
