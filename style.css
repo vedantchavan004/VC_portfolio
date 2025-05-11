@@ -1220,6 +1220,7 @@ input:checked + .slider:before {
   }
   .about-content {
     flex-direction: column;
+    align-items: center;
     text-align: center; /* Ensure text below image is centered */
   }
   .about-image img { /* No change needed here if already responsive */
