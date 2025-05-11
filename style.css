@@ -396,7 +396,7 @@ nav a:hover {
 #experience {
   position: relative;
   padding: 4vh 5%;
-  background: #f7f9fc; 
+  background: #f7f9fc;
 }
 
 .experience-header {
@@ -413,7 +413,7 @@ nav a:hover {
 /* Default experience card */
 .experience-card,
 .merged-experience {
-  background: #e1eef1;
+  background: #f7f9fc; /* Updated to match section background */
   border: 1px solid #e0e0e0;
   border-radius: 1rem;
   padding: 2vh 2%;
@@ -445,7 +445,7 @@ nav a:hover {
   margin-bottom: 1vh;
 }
 
-/* Regular bullet list */
+/* Global bullet list */
 .experience-details {
   list-style: none;
   padding: 0;
@@ -486,9 +486,9 @@ nav a:hover {
 .experience-column {
   flex: 1 1 45%;
   padding: 1rem;
-  background-color: #f4fafd;
+  background-color: #f7f9fc; /* Matches the section */
   border-radius: 0.75rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
 .sub-role {
@@ -498,7 +498,7 @@ nav a:hover {
   color: #353535;
 }
 
-/* Use native bullets, remove double-dot issue */
+/* Use native bullets */
 .experience-column .experience-details {
   list-style: disc;
   padding-left: 1.5rem;
@@ -506,13 +506,13 @@ nav a:hover {
   color: #555;
 }
 
+/* Avoid duplicate bullets in HELLA list */
 .experience-column .experience-details li {
-  position: relative;
   margin-bottom: 0.75rem;
   line-height: 1.6;
+  position: static;
 }
 
-/* Disable the global bullet override inside HELLA column */
 .experience-column .experience-details li::before {
   content: none;
 }
