@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Project "More Details" Toggle (Updated with Animation & ARIA) ---
   const detailButtons = document.querySelectorAll(".project-btn.more-details-btn");
-  
+
   detailButtons.forEach(button => {
     const projectCard = button.closest(".project-card");
     if (!projectCard) return;
@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const isInitiallyHidden = details.classList.contains('hidden') || !details.classList.contains('details-visible');
       button.setAttribute('aria-expanded', isInitiallyHidden ? 'false' : 'true');
       details.setAttribute('aria-hidden', isInitiallyHidden ? 'true' : 'false');
-      
+
       if (!isInitiallyHidden) {
         details.style.maxHeight = details.scrollHeight + "px";
         projectInfo.classList.add('project-info-hidden'); // Hide info if details are initially visible
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
           detailEl.setAttribute('aria-hidden', 'true');
         }
       });
-      
+
       // Toggle the clicked project's details and project-info
       if (isCurrentlyVisible) {
         details.classList.remove('details-visible');
@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         details.setAttribute('aria-hidden', 'true');
         projectInfo.classList.remove('project-info-hidden'); // Show project-info
       } else {
-        details.classList.remove('hidden'); 
+        details.classList.remove('hidden');
         details.classList.add('details-visible');
         details.style.maxHeight = details.scrollHeight + "px";
         this.textContent = "Less Details";
@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (viewMoreProjectsBtn && additionalProjectsContainer) {
     const isInitiallyHidden = additionalProjectsContainer.classList.contains('hidden');
     viewMoreProjectsBtn.textContent = isInitiallyHidden ? 'View More Projects' : 'Show Less';
-    
+
     viewMoreProjectsBtn.addEventListener("click", () => {
       additionalProjectsContainer.classList.toggle('hidden');
       if (additionalProjectsContainer.classList.contains('hidden')) {
@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const feedbackMessage = document.getElementById('contact-feedback');
   if (contactForm && feedbackMessage) {
     contactForm.addEventListener('submit', (e) => {
-      e.preventDefault(); 
+      e.preventDefault();
       const name = contactForm.querySelector('[name="name"]');
       const email = contactForm.querySelector('[name="email"]');
       const message = contactForm.querySelector('[name="message"]');
@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
         feedbackMessage.style.display = 'block';
         setTimeout(() => {
             feedbackMessage.style.display = 'none';
-            feedbackMessage.textContent = ""; 
+            feedbackMessage.textContent = "";
         }, 3000);
         return;
       }
