@@ -29,14 +29,14 @@
   --btn-secondary-bg: transparent;
   --btn-secondary-text: #353535;
   --btn-secondary-border: #353535;
-  --icon-color: #353535;
+  --icon-color: #353535; /* Default icon color for light theme */
   --about-info-text-color: #444;
   --stat-text-color: #777;
   --skills-header-text-color: #777;
   --skill-card-header-bg-start: #292929;
   --skill-card-header-bg-end: #555;
   --skill-card-header-text: #fff;
-  --skill-card-item-bg: #fafafa; /* Used for project-details background */
+  --skill-card-item-bg: #fafafa;
   --experience-card-bg: #e1eef1;
   --experience-card-border: #e0e0e0;
   --experience-details-text: #555;
@@ -84,11 +84,11 @@
   --btn-secondary-bg: transparent;
   --btn-secondary-text: #e0e0e0;
   --btn-secondary-border: #e0e0e0;
-  --icon-color: #e0e0e0;
+  --icon-color: #e0e0e0; /* Icon color for dark theme */
   --about-info-text-color: #bbb;
   --stat-text-color: #aaa;
   --skills-header-text-color: #aaa;
-  --skill-card-item-bg: #333; /* Used for project-details background */
+  --skill-card-item-bg: #333;
   --experience-card-bg: #2c2c2c;
   --experience-card-border: #444;
   --experience-details-text: #bbb;
@@ -329,17 +329,24 @@ nav a:hover {
 .btn:hover {
   opacity: 0.9;
 }
+
 #socials-container {
   display: flex;
   justify-content: center;
   gap: 1rem;
   margin-top: 1rem;
 }
-.icon {
+
+#socials-container a .icon {
   width: 2rem;
   height: 2rem;
   cursor: pointer;
-  transition: filter var(--transition-speed) var(--transition-ease);
+  color: var(--icon-color);
+  transition: color var(--transition-speed) var(--transition-ease), transform 0.2s ease-out;
+}
+
+#socials-container a:hover .icon {
+  transform: scale(1.1);
 }
 
 
@@ -358,24 +365,25 @@ nav a:hover {
   display: flex;
   flex-wrap: wrap;
   gap: 3%;
-  align-items: center;
+  align-items: center; /* Changed from center to flex-start for better alignment with text */
   justify-content: center;
 }
 .about-image {
   flex: 1;
   text-align: center;
   min-width: 250px;
+  max-width: 300px; /* Added max-width for consistency */
+  align-self: flex-start; /* Align image to the top */
 }
 .about-image img {
   width: 100%;
-  max-width: 300px;
   border-radius: 1rem;
   box-shadow: 0 4px 12px var(--card-shadow);
   transition: box-shadow var(--transition-speed) var(--transition-ease);
 }
 .about-info {
   flex: 2;
-  min-width: 250px;
+  min-width: 250px; /* Was 250px, can be adjusted based on preference */
   padding: 1rem;
 }
 .about-info p {
@@ -387,25 +395,36 @@ nav a:hover {
 .about-stats {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
-  justify-content: space-between;
+  gap: 2rem; /* Original gap */
+  justify-content: space-between; /* Distributes space for 3 items well */
 }
 .stat {
   text-align: center;
-  flex: 1;
-  min-width: 120px;
+  flex: 1; /* Allows them to grow and shrink */
+  min-width: 120px; /* Prevents them from becoming too small */
+  display: flex; /* Added for vertical alignment */
+  flex-direction: column; /* Added for vertical alignment */
+  align-items: center; /* Added for vertical alignment */
 }
-.stat img {
-  width: 50px;
-  margin-bottom: 0.5rem;
+
+/* Styling for SVGs within .stat */
+.stat .stat-icon {
+  width: 50px; /* Original img width */
+  height: 50px; /* Maintain aspect ratio or set explicitly */
+  margin-bottom: 0.5rem; /* Original img margin */
+  color: var(--icon-color); /* Use the theme's icon color */
+  transition: color var(--transition-speed) var(--transition-ease);
 }
+
 .stat h3 {
   font-size: clamp(1.2rem, 1.5vw, 1.5rem);
   color: var(--title-color);
+  margin-bottom: 0.25rem; /* Added small margin for spacing */
 }
 .stat p {
   font-size: clamp(0.9rem, 1vw, 1rem);
   color: var(--stat-text-color);
+  line-height: 1.4; /* Adjusted for potentially multi-line text */
 }
 
 /* SKILLS SECTION */
@@ -470,7 +489,6 @@ nav a:hover {
   max-height: 0;
   overflow: hidden;
   background: var(--card-bg);
-  /* MODIFICATION: Removed 'padding 0.5s ease-out' from transition */
   transition: max-height 0.5s ease-out, background var(--transition-speed) var(--transition-ease);
   padding: 0 2%;
 }
@@ -668,7 +686,6 @@ nav a:hover {
 .project-card {
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; Removed to allow natural height flow */
   align-items: center;
   background: var(--card-bg);
   border-radius: 1rem;
@@ -679,7 +696,7 @@ nav a:hover {
   max-width: 320px;
   text-align: center;
   padding: 1rem;
-  min-height: 300px; /* Adjusted min-height, can be removed if not desired */
+  min-height: 300px;
 }
 .project-card:hover {
   transform: translateY(-5px);
@@ -706,35 +723,31 @@ nav a:hover {
   font-weight: 600;
   color: var(--title-color);
   margin-bottom: 0.5rem;
-  min-height: 2.5em; /* Adjusted for typical title lengths */
+  min-height: 2.5em;
 }
 
-/* project-info: for the short description */
 .project-info {
-  /* flex-grow: 1; Removed to allow natural shrink/grow */
   font-size: clamp(0.9rem, 1vw, 0.9rem);
   color: var(--text-color);
-  margin-bottom: 1rem; /* Default margin */
-  width: 100%; /* Ensure it takes available width */
-
-  /* Animation properties for smooth disappearance/appearance */
+  margin-bottom: 1rem;
+  width: 100%;
   opacity: 1;
-  max-height: 10em; /* Adjust based on typical content height, e.g., 5 lines * 1.6 line-height * font-size */
+  max-height: 10em;
   overflow: hidden;
   visibility: visible;
   transition:
     opacity var(--transition-speed) var(--transition-ease),
-    max-height 0.3s var(--transition-ease), /* Control speed of collapse/expand */
+    max-height 0.3s var(--transition-ease),
     margin-bottom var(--transition-speed) var(--transition-ease),
-    padding-top var(--transition-speed) var(--transition-ease), /* If you add padding */
-    padding-bottom var(--transition-speed) var(--transition-ease), /* If you add padding */
-    visibility 0s 0s; /* Immediate visibility change */
+    padding-top var(--transition-speed) var(--transition-ease),
+    padding-bottom var(--transition-speed) var(--transition-ease),
+    visibility 0s 0s;
 }
 
 .project-info.project-info-hidden {
   opacity: 0;
   max-height: 0;
-  margin-bottom: 0; /* Collapse margin when hidden */
+  margin-bottom: 0;
   padding-top: 0;
   padding-bottom: 0;
   visibility: hidden;
@@ -744,25 +757,21 @@ nav a:hover {
     margin-bottom var(--transition-speed) var(--transition-ease),
     padding-top var(--transition-speed) var(--transition-ease),
     padding-bottom var(--transition-speed) var(--transition-ease),
-    visibility 0s var(--transition-speed); /* Delay hiding until animation ends */
+    visibility 0s var(--transition-speed);
 }
 
-
-/* project-details: for the bullet-point list */
 .project-details {
   text-align: left;
   padding: 0 1rem;
   background: var(--skill-card-item-bg);
   border-radius: 0.5rem;
-  /* margin-top: 0.5rem; /* Margin applied by .project-info or when .project-info is hidden */
   width: calc(100% - 0.5rem);
   box-sizing: border-box;
-
   opacity: 0;
   max-height: 0;
   overflow: hidden;
   visibility: hidden;
-  margin-top: 0; /* No margin when hidden */
+  margin-top: 0;
   transition:
     opacity var(--transition-speed) var(--transition-ease),
     max-height 0.5s var(--transition-ease),
@@ -784,7 +793,7 @@ nav a:hover {
   opacity: 1;
   visibility: visible;
   padding: 0.75rem 1rem;
-  margin-top: 0.5rem; /* Add margin when visible */
+  margin-top: 0.5rem;
   transition:
     opacity var(--transition-speed) var(--transition-ease),
     max-height 0.5s var(--transition-ease),
@@ -804,7 +813,6 @@ nav a:hover {
   line-height: 1.5;
 }
 
-/* Project Buttons */
 .project-btn {
   padding: 0.5rem 1rem;
   border-radius: 2rem;
@@ -814,7 +822,7 @@ nav a:hover {
   cursor: pointer;
   transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
   font-size: 0.85rem;
-  margin-top: auto; /* Push buttons to the bottom of the card */
+  margin-top: auto;
 }
 [data-theme="light"] .project-btn:hover {
     background: var(--btn-secondary-text);
@@ -831,7 +839,7 @@ nav a:hover {
 
 .view-more-container {
   text-align: center;
-  margin-top: 2rem; /* Add some space above view more button */
+  margin-top: 2rem;
 }
 .view-more-btn {
   padding: 1rem 2rem;
@@ -1211,12 +1219,18 @@ input:checked + .slider:before {
   }
   .about-content {
     flex-direction: column;
-    text-align: center;
+    text-align: center; /* Ensure text below image is centered */
   }
-  .about-image img {
-    width: 100%;
-    max-width: 300px;
-    margin: 0 auto;
+  .about-image img { /* No change needed here if already responsive */
+    /* width: 100%; */ /* Already there */
+    /* max-width: 300px; */ /* Already there */
+    margin: 0 auto 2rem; /* Add bottom margin when stacked */
+  }
+  .about-stats {
+    justify-content: center; /* Center stats when they wrap */
+  }
+  .stat {
+    min-width: 150px; /* Adjust if needed on smaller screens */
   }
   #hamburger-nav {
     justify-content: space-between;
@@ -1311,5 +1325,19 @@ input:checked + .slider:before {
   }
   .section__text__p2 {
     font-size: clamp(1.1rem, 1.75vw, 1.25rem);
+  }
+  .stat { /* Ensure stats are readable and well-spaced on very small screens */
+    min-width: 100px;
+    padding: 0 0.5rem; /* Add some horizontal padding */
+  }
+  .stat .stat-icon {
+    width: 40px;
+    height: 40px;
+  }
+  .stat h3 {
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+  }
+  .stat p {
+    font-size: clamp(0.8rem, 1vw, 0.9rem);
   }
 }
