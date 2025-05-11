@@ -1166,7 +1166,7 @@ input:checked + .slider:before {
   .about-content {
     flex-direction: column;
     align-items: center;      /* center all children */
-    text-align: center;       /* ensure text is centered */
+       /* ensure text is centered */
   }
 
   .about-image {
