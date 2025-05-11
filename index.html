@@ -254,36 +254,42 @@
         <p class="section__text__p1">Browse My Recent</p>
         <h1 class="title">Experience</h1>
       </div>
-
+    
       <div class="experience-grid">
-        <!-- Experience 1 -->
-        <div class="experience-card">
-          <h2 class="experience-role">AI Research Intern</h2>
-          <h3 class="experience-company">HELLA GmbH & Co. KGaA (Forvia HELLA)</h3>
-          <p class="experience-duration">Aug 2023 - Feb 2024</p>
-          <ul class="experience-details">
-            <li>Worked on AHEAD project- Adaptive Headlights to Improve Environment Perception for Automated Driving.</li>
-            <li>Evaluated and stress-tested YOLOv8 models, ensuring robustness under dynamic conditions.</li>
-            <li>Conducted adversarial testing and model perturbation experiments, improving model resilience.</li>
-            <li>Calibrated stereo-camera rigs and applied homography transforms to map object detections into global vehicle coordinates for error analysis and sensor fusion tasks.</li>
-            <li>Designed stereo-vision robustness benchmarks, enhancing object localization reliability by 30%.</li>
-            <li>Led dataset fairness audits, promoting AI model generalization across diverse conditions.</li>
-            <li>Integrated ONNX Runtime for efficient model deployment, supporting scalable AI applications.</li>
-          </ul>
-        </div>
-
-        <!-- Experience 2 -->
-        <div class="experience-card">
-          <h2 class="experience-role">Master Thesis</h2>
-          <h3 class="experience-company">HELLA GmbH & Co. KGaA (Forvia HELLA)</h3>
-          <p class="experience-duration">Apr 2024 - Nov 2024</p>
-          <ul class="experience-details">
-            <li>My thesis was an extension of my internship work, where I researched different methods to improve object localization in challenging scenes.</li>
-            <li>Implemented synthetic data generation using Unreal Engine 5, enhancing training data diversity.</li>
-            <li>Developed a lightweight stereo vision network (autoencoder + cost-volume fusion) achieving 3% error on synthetic datasets and 95% 3D localization accuracy for objects like delineators.</li>
-            <li>Contributed to research and development, providing data-driven insights for improved model performance.</li>
-            <li>Collaborated with cross-functional teams to validate models under regulatory guidelines.</li>
-          </ul>
+        <!-- Combined HELLA Experience -->
+        <div class="experience-card merged-experience">
+          <div class="experience-header">
+            <h2 class="experience-company">HELLA GmbH & Co. KGaA (FORVIA HELLA)</h2>
+            <p class="experience-duration">Aug 2023 – Nov 2024</p>
+            <p class="experience-role">AI Research Intern & Master’s Thesis Researcher</p>
+          </div>
+    
+          <div class="experience-split">
+            <!-- Internship Section -->
+            <div class="experience-column">
+              <h3 class="sub-role">AI Research Intern</h3>
+              <ul class="experience-details">
+                <li>Worked on the AHEAD project (Adaptive Headlights for Enhanced Environment Perception in Automated Driving).</li>
+                <li>Fine-tuned YOLOv8 for nighttime object detection; improved robustness through adversarial testing and perturbation experiments.</li>
+                <li>Calibrated stereo cameras and applied homography transforms to project 2D detections into 3D global vehicle coordinates.</li>
+                <li>Designed and evaluated stereo vision benchmarks, increasing object localization reliability by 30%.</li>
+                <li>Audited dataset fairness to improve generalization across lighting and scene variations.</li>
+                <li>Integrated models with ONNX Runtime to enable fast and scalable deployment.</li>
+              </ul>
+            </div>
+    
+            <!-- Thesis Section -->
+            <div class="experience-column">
+              <h3 class="sub-role">Master’s Thesis Researcher</h3>
+              <ul class="experience-details">
+                <li>Extended internship work to develop a lightweight stereo vision network combining autoencoder and cost volume fusion.</li>
+                <li>Achieved 3% depth error and 95% 3D localization accuracy on synthetic datasets.</li>
+                <li>Built a synthetic data pipeline in Unreal Engine 5 to simulate diverse nighttime driving scenes for training.</li>
+                <li>Provided R&D support through model evaluation, error analysis, and regulatory-aligned validation.</li>
+                <li>Collaborated with engineering and AI teams to refine models for real-world deployment.</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </section>
