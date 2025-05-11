@@ -393,9 +393,25 @@ nav a:hover {
 }
 
 /* EXPERIENCE */
+#experience {
+  position: relative;
+  padding: 4vh 5%;
+  background: #f7f9fc; 
+}
 
-/*NEW */
-/* HELLA Combined Experience Styles */
+.experience-header {
+  text-align: center;
+  margin-bottom: 3vh;
+}
+
+.experience-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2vh;
+}
+
+/* Default experience card */
+.experience-card,
 .merged-experience {
   background: #e1eef1;
   border: 1px solid #e0e0e0;
@@ -405,28 +421,59 @@ nav a:hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.experience-card:hover,
 .merged-experience:hover {
   transform: translateY(-5px);
   box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.15);
 }
 
-.merged-experience .experience-header {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
+.experience-card h2,
 .merged-experience .experience-company {
   font-size: clamp(1.5rem, 1.75vw, 1.75rem);
-  font-weight: 600;
   color: #333;
   margin-bottom: 0.25rem;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.5rem;
 }
 
+.experience-duration,
+.experience-role,
 .merged-experience .experience-duration,
 .merged-experience .experience-role {
   font-size: clamp(1rem, 1vw, 1rem);
   color: #777;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1vh;
+}
+
+/* Regular bullet list */
+.experience-details {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.experience-details li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-size: clamp(1rem, 1vw, 1rem);
+  line-height: 1.6;
+  color: #555;
+}
+
+.experience-details li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #353535;
+  font-size: 1.2rem;
+}
+
+/* === HELLA Combined Experience Specific === */
+.merged-experience .experience-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
 .experience-split {
@@ -451,6 +498,7 @@ nav a:hover {
   color: #353535;
 }
 
+/* Use native bullets, remove double-dot issue */
 .experience-column .experience-details {
   list-style: disc;
   padding-left: 1.5rem;
@@ -459,11 +507,17 @@ nav a:hover {
 }
 
 .experience-column .experience-details li {
+  position: relative;
   margin-bottom: 0.75rem;
   line-height: 1.6;
 }
 
-/* Mobile responsiveness */
+/* Disable the global bullet override inside HELLA column */
+.experience-column .experience-details li::before {
+  content: none;
+}
+
+/* Responsive layout for HELLA section */
 @media (max-width: 768px) {
   .experience-split {
     flex-direction: column;
@@ -473,8 +527,6 @@ nav a:hover {
     flex: 1 1 100%;
   }
 }
-/* END NEW */
-
 /* PROJECTS */
 #projects {
   position: relative;
