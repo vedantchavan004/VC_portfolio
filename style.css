@@ -1226,7 +1226,7 @@ input:checked + .slider:before {
     /* width: 100%; */ /* Already there */
     /* max-width: 300px; */ /* Already there */
     align-self: center;
-    margin: 0 auto 2rem; /* Add bottom margin when stacked */
+    margin: 0 auto 1rem; /* Add bottom margin when stacked */
   }
   .about-stats {
     justify-content: center; /* Center stats when they wrap */
