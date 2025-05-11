@@ -12,41 +12,32 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Theme Toggle Functionality ---
   const desktopToggle = document.getElementById('theme-toggle-desktop');
   const mobileToggle = document.getElementById('theme-toggle-mobile');
-  const desktopIcon = document.getElementById('theme-icon-desktop'); // Optional: for icon text ☀️/🌙
-  const mobileIcon = document.getElementById('theme-icon-mobile');   // Optional: for icon text ☀️/🌙
+  const desktopIcon = document.getElementById('theme-icon-desktop');
+  const mobileIcon = document.getElementById('theme-icon-mobile');
 
   const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
   let currentTheme = localStorage.getItem('theme');
 
-  // Determine initial theme: 1. localStorage, 2. System Preference, 3. Default to light
   if (!currentTheme) {
-    if (userPrefersDark) {
-      currentTheme = 'dark';
-    } else {
-      currentTheme = 'light';
-    }
+    currentTheme = userPrefersDark ? 'dark' : 'light';
   }
 
   function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
-
     const isDark = theme === 'dark';
-
     if (desktopToggle) desktopToggle.checked = isDark;
     if (mobileToggle) mobileToggle.checked = isDark;
-
     const iconChar = isDark ? '🌙' : '☀️';
     if (desktopIcon) desktopIcon.textContent = iconChar;
     if (mobileIcon) mobileIcon.textContent = iconChar;
   }
 
-  applyTheme(currentTheme); // Apply the initial theme
+  applyTheme(currentTheme);
 
   function handleToggleChange(event) {
     const newTheme = event.target.checked ? 'dark' : 'light';
     applyTheme(newTheme);
-    // Optional: Set a flag indicating user has manually changed the theme
     localStorage.setItem('theme-manual-override', 'true');
   }
 
@@ -57,12 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileToggle.addEventListener('change', handleToggleChange);
   }
 
-  // Listen for changes in system preference
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-    // Only update if the user hasn't manually overridden the theme
     if (!localStorage.getItem('theme-manual-override')) {
-      const newSystemTheme = e.matches ? 'dark' : 'light';
-      applyTheme(newSystemTheme);
+      applyTheme(e.matches ? 'dark' : 'light');
     }
   });
 
@@ -77,50 +65,42 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     let textIndex = 0;
     let charIndex = 0;
-
     function type() {
       if (charIndex < typingTexts[textIndex].length) {
         typingAnimationElement.textContent += typingTexts[textIndex].charAt(charIndex);
         charIndex++;
-        setTimeout(type, 150); // Typing speed
+        setTimeout(type, 150);
       } else {
-        setTimeout(erase, 1500); // Pause before erasing
+        setTimeout(erase, 1500);
       }
     }
-
     function erase() {
       if (charIndex > 0) {
         typingAnimationElement.textContent = typingTexts[textIndex].substring(0, charIndex - 1);
         charIndex--;
-        setTimeout(erase, 100); // Erasing speed
+        setTimeout(erase, 100);
       } else {
         textIndex = (textIndex + 1) % typingTexts.length;
-        setTimeout(type, 500); // Pause before typing next text
+        setTimeout(type, 500);
       }
     }
-    setTimeout(type, 500); // Initial start
+    setTimeout(type, 500);
   }
-
 
   // --- Skills Accordion ---
   const skillCards = document.querySelectorAll('#skills .skill-card');
   skillCards.forEach(card => {
     const header = card.querySelector('.card-header');
     const content = card.querySelector('.card-content');
-    
     if (header && content) {
       header.addEventListener('click', () => {
         const isExpanded = card.classList.contains('expanded');
-        
-        // Close all other cards
         skillCards.forEach(otherCard => {
           if (otherCard !== card && otherCard.classList.contains('expanded')) {
             otherCard.classList.remove('expanded');
             otherCard.querySelector('.card-content').style.maxHeight = null;
           }
         });
-
-        // Toggle current card
         if (isExpanded) {
           card.classList.remove('expanded');
           content.style.maxHeight = null;
@@ -132,34 +112,89 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // --- Project "More Details" Toggle ---
-  const detailButtons = document.querySelectorAll(".project-btn.more-details-btn"); // Make selector more specific
+  // --- Project "More Details" Toggle (Updated with Animation & ARIA) ---
+  const detailButtons = document.querySelectorAll(".project-btn.more-details-btn");
+  
+  detailButtons.forEach(button => {
+    const projectCard = button.closest(".project-card");
+    if (!projectCard) return;
+
+    const detailsId = button.getAttribute('aria-controls');
+    const details = detailsId ? document.getElementById(detailsId) : null;
+    const projectInfo = projectCard.querySelector(".project-info");
+
+    if (details && projectInfo) {
+      const isInitiallyHidden = details.classList.contains('hidden') || !details.classList.contains('details-visible');
+      button.setAttribute('aria-expanded', isInitiallyHidden ? 'false' : 'true');
+      details.setAttribute('aria-hidden', isInitiallyHidden ? 'true' : 'false');
+      
+      if (!isInitiallyHidden) {
+        details.style.maxHeight = details.scrollHeight + "px";
+        projectInfo.classList.add('project-info-hidden'); // Hide info if details are initially visible
+      } else {
+        projectInfo.classList.remove('project-info-hidden');
+      }
+    }
+  });
+
   detailButtons.forEach((button) => {
     button.addEventListener("click", function () {
       const projectCard = this.closest(".project-card");
       if (!projectCard) return;
-      const details = projectCard.querySelector(".project-details");
-      if (!details) return;
 
-      const isCurrentlyHidden = details.style.display === "none" || details.style.display === "";
+      const detailsId = this.getAttribute('aria-controls');
+      if (!detailsId) {
+        console.warn("More Details button is missing aria-controls attribute or its value is empty.");
+        return;
+      }
+      const details = document.getElementById(detailsId);
+      const projectInfo = projectCard.querySelector(".project-info");
 
-      // Close all other project details first
-      document.querySelectorAll(".project-details").forEach((detailEl) => {
+      if (!details || !projectInfo) {
+        console.warn(`Required elements (.project-details or .project-info) not found for card controlled by button for ID: ${detailsId}`);
+        return;
+      }
+
+      const isCurrentlyVisible = details.classList.contains('details-visible');
+
+      // Close all other open project details and restore their project-info
+      document.querySelectorAll(".project-details.details-visible").forEach((detailEl) => {
         if (detailEl !== details) {
-          detailEl.style.display = "none";
-          // Reset text of other buttons
-          const otherButton = detailEl.closest('.project-card')?.querySelector('.project-btn.more-details-btn');
-          if (otherButton) otherButton.textContent = "More Details";
+          const otherProjectCard = detailEl.closest('.project-card');
+          if (otherProjectCard) {
+            const otherProjectInfo = otherProjectCard.querySelector('.project-info');
+            if (otherProjectInfo) {
+              otherProjectInfo.classList.remove('project-info-hidden');
+            }
+            const otherButtonId = detailEl.id;
+            const otherButton = document.querySelector(`.project-btn.more-details-btn[aria-controls="${otherButtonId}"]`);
+            if (otherButton) {
+              otherButton.textContent = "More Details";
+              otherButton.setAttribute('aria-expanded', 'false');
+            }
+          }
+          detailEl.classList.remove('details-visible');
+          detailEl.style.maxHeight = null;
+          detailEl.setAttribute('aria-hidden', 'true');
         }
       });
       
-      // Toggle the clicked project's details
-      if (isCurrentlyHidden) {
-        details.style.display = "block";
-        this.textContent = "Less Details";
-      } else {
-        details.style.display = "none";
+      // Toggle the clicked project's details and project-info
+      if (isCurrentlyVisible) {
+        details.classList.remove('details-visible');
+        details.style.maxHeight = null;
         this.textContent = "More Details";
+        this.setAttribute('aria-expanded', 'false');
+        details.setAttribute('aria-hidden', 'true');
+        projectInfo.classList.remove('project-info-hidden'); // Show project-info
+      } else {
+        details.classList.remove('hidden'); 
+        details.classList.add('details-visible');
+        details.style.maxHeight = details.scrollHeight + "px";
+        this.textContent = "Less Details";
+        this.setAttribute('aria-expanded', 'true');
+        details.setAttribute('aria-hidden', 'false');
+        projectInfo.classList.add('project-info-hidden'); // Hide project-info
       }
     });
   });
@@ -167,15 +202,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- "View More Projects" Toggle ---
   const viewMoreProjectsBtn = document.querySelector(".view-more-btn");
   const additionalProjectsContainer = document.getElementById('additional-projects');
-
   if (viewMoreProjectsBtn && additionalProjectsContainer) {
-    // Initially hide if it's meant to be hidden by default via CSS
-    if(additionalProjectsContainer.classList.contains('hidden')) {
-        viewMoreProjectsBtn.textContent = 'View More Projects';
-    } else {
-        viewMoreProjectsBtn.textContent = 'Show Less';
-    }
-
+    const isInitiallyHidden = additionalProjectsContainer.classList.contains('hidden');
+    viewMoreProjectsBtn.textContent = isInitiallyHidden ? 'View More Projects' : 'Show Less';
+    
     viewMoreProjectsBtn.addEventListener("click", () => {
       additionalProjectsContainer.classList.toggle('hidden');
       if (additionalProjectsContainer.classList.contains('hidden')) {
@@ -188,44 +218,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Contact Form with EmailJS ---
   const contactForm = document.getElementById('contact-form');
-  const feedbackMessage = document.getElementById('contact-feedback'); // Corrected variable name
-
+  const feedbackMessage = document.getElementById('contact-feedback');
   if (contactForm && feedbackMessage) {
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault(); 
-      
-      // Simple client-side validation example (can be expanded)
       const name = contactForm.querySelector('[name="name"]');
       const email = contactForm.querySelector('[name="email"]');
       const message = contactForm.querySelector('[name="message"]');
       let isValid = true;
-
-      if (!name.value.trim()) {
-        // alert("Please enter your name."); // Or display error near field
+      if (!name.value.trim() || !email.value.trim() || !email.value.includes('@') || !message.value.trim()) {
         isValid = false;
       }
-      if (!email.value.trim() || !email.value.includes('@')) {
-        // alert("Please enter a valid email.");
-        isValid = false;
-      }
-      if (!message.value.trim()) {
-        // alert("Please enter your message.");
-        isValid = false;
-      }
-
       if (!isValid) {
         feedbackMessage.textContent = "Please fill all fields correctly.";
-        feedbackMessage.style.color = "red"; // Or use a CSS class for error
+        feedbackMessage.style.color = "red";
         feedbackMessage.style.display = 'block';
         setTimeout(() => {
             feedbackMessage.style.display = 'none';
-            feedbackMessage.style.color = "var(--success-feedback-color)"; // Reset color
-            feedbackMessage.textContent = "Message sent successfully!"; // Reset text
+            feedbackMessage.textContent = ""; 
         }, 3000);
         return;
       }
-
-      // Assuming EmailJS is loaded globally
       if (typeof emailjs !== 'undefined') {
         emailjs.sendForm('service_fcwnhwo', 'template_tqz2zlq', contactForm)
           .then((result) => {
@@ -233,34 +246,26 @@ document.addEventListener('DOMContentLoaded', () => {
             feedbackMessage.style.color = "var(--success-feedback-color)";
             feedbackMessage.style.display = 'block';
             contactForm.reset();
-            setTimeout(() => {
-              feedbackMessage.style.display = 'none';
-            }, 3000);
+            setTimeout(() => { feedbackMessage.style.display = 'none'; feedbackMessage.textContent = ""; }, 3000);
           }, (error) => {
             feedbackMessage.textContent = "Failed to send message. Please try again.";
             feedbackMessage.style.color = "red";
             feedbackMessage.style.display = 'block';
             console.error("EmailJS Error:", error);
-             setTimeout(() => {
-              feedbackMessage.style.display = 'none';
-            }, 3000);
+            setTimeout(() => { feedbackMessage.style.display = 'none'; feedbackMessage.textContent = ""; }, 3000);
           });
       } else {
         console.error("EmailJS library not found.");
         feedbackMessage.textContent = "Email service is currently unavailable.";
         feedbackMessage.style.color = "red";
         feedbackMessage.style.display = 'block';
-         setTimeout(() => {
-            feedbackMessage.style.display = 'none';
-        }, 3000);
+        setTimeout(() => { feedbackMessage.style.display = 'none'; feedbackMessage.textContent = ""; }, 3000);
       }
     });
   }
 });
 
-// Expose toggleMenu to global scope if it's called via onclick="toggleMenu()" in HTML
-// Otherwise, it's better to attach event listener in JS
-const hamburgerIcon = document.querySelector('.hamburger-icon');
-if (hamburgerIcon) {
-    hamburgerIcon.addEventListener('click', toggleMenu);
+const hamburgerMenuIcon = document.querySelector('.hamburger-icon');
+if (hamburgerMenuIcon) {
+    hamburgerMenuIcon.addEventListener('click', toggleMenu);
 }
