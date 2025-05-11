@@ -408,7 +408,10 @@ nav a:hover {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2vh;
+  width: 100%;
 }
+
+
 
 /* Default experience card and HELLA merged card */
 .experience-card,
@@ -518,13 +521,18 @@ nav a:hover {
 }
 
 /* Mobile responsiveness */
+/* Add this new media query */
 @media (max-width: 768px) {
-  .experience-split {
-    flex-direction: column;
+  .experience-grid {
+    grid-template-columns: 1fr; /* Force full width on small screens */
+    padding: 0;
   }
 
-  .experience-column {
-    flex: 1 1 100%;
+  .experience-card,
+  .merged-experience {
+    border-radius: 0;         /* Optional: remove rounding to edge */
+    padding: 2vh 5%;          /* Optional: add slight side padding */
+    box-shadow: none;         /* Optional: remove shadow if you want flat design */
   }
 }
 
