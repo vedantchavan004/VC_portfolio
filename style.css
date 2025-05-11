@@ -373,7 +373,7 @@ nav a:hover {
   text-align: center;
   min-width: 250px;
   max-width: 300px; /* Added max-width for consistency */
-  align-self: flex-start; /* Align image to the top */
+  align-self: center; /* Align image to the top */
 }
 .about-image img {
   width: 100%;
