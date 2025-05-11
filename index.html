@@ -329,7 +329,7 @@
             The goal is to simplify gauge monitoring and tagging by using YOLOv11 pose model and QR detector.
           </p>
           <!-- More Details -->
-          <div class="project-details hidden">
+          <div class="project-details hidden" id="project0-details">
             <ul>
               <li>Trained a custom YOLOv11 pose model to detect keypoints on analog pressure gauges.</li>
               <li>Integrated OpenCV's QR code detector to read identification tags placed on or near gauges.</li>
@@ -338,7 +338,7 @@
           </div>
           <div class="btn-container">
             <button class="btn project-btn" onclick="window.open('https://github.com/vedantchavan004/GaugeVision', '_blank')">Github</button>
-            <button class="btn project-btn more-details-btn">More Details</button>
+            <button class="btn project-btn more-details-btn" aria-controls="project0-details">More Details</button>
           </div>
         </div>
         
@@ -354,7 +354,7 @@
           </p>
     
           <!-- More Details -->
-          <div class="project-details hidden">
+          <div class="project-details hidden" id="project2-details">
             <ul>
               <li>Designed a CNN-based depth estimation model using PyTorch, for low-light scenarios.</li>
               <li>Generated synthetic training datasets using Unreal Engine 5, improving model generalization.</li>
@@ -364,7 +364,7 @@
     
           <div class="btn-container">
             <button class="btn project-btn" onclick="window.open('https://github.com/vedantchavan004/Deep-Stereo-Vision-for-nighttime-Driving-Scenes', '_blank')">Github</button>
-            <button class="btn project-btn more-details-btn">More Details</button>
+            <button class="btn project-btn more-details-btn" aria-controls="project2-details">More Details</button>
           </div>
         </div>
     
@@ -379,7 +379,7 @@
           </p>
 
           <!-- More Details -->
-          <div class="project-details hidden">
+          <div class="project-details hidden" id="project25-details">
             <ul>
               <li>Real-Time Object Detection & Segmentation: Uses YOLOv11 for accurate instance segmentation.</li>
               <li>FastAPI Backend: Serves the model predictions via REST API.</li>
@@ -401,7 +401,7 @@
             <button class="btn project-btn" onclick="window.open('https://github.com/vedantchavan004/Image-Segmentation-AWS-MLOps', '_blank', 'noopener,noreferrer')">
               Github
             </button>
-            <button class="btn project-btn more-details-btn">More Details</button>
+            <button class="btn project-btn more-details-btn" aria-controls="project25-details">More Details</button>
           </div>
         </div>
       </div>
@@ -419,7 +419,7 @@
           </p>
 
           <!-- More Details -->
-          <div class="project-details hidden">
+          <div class="project-details hidden" id="project3-details">
             <ul>
               <li>Developed TensorFlow-based YOLO model for precise object detection & orientation estimation.</li>
               <li>Trained the model using synthetic (Blender) & real-world datasets, achieving 95% precision.</li>
@@ -431,7 +431,7 @@
             <button class="btn project-btn" onclick="window.open('https://github.com/vedantchavan004/YOLO-For-Object-Detection-and-Localization-in-Bin-Picking-Application', '_blank', 'noopener,noreferrer')">
               Github
             </button>
-            <button class="btn project-btn more-details-btn">More Details</button>
+            <button class="btn project-btn more-details-btn" aria-controls="project3-details">More Details</button>
           </div>
         </div>
         
@@ -446,7 +446,7 @@
           </p>
 
           <!-- More Details -->
-          <div class="project-details hidden">
+          <div class="project-details hidden" id="project35-details">
             <ul>
               <li>Extracted multi-level features from MobileNetV3 and computed Mahalanobis-based anomaly scores at pixel level.</li>
               <li>Exported the feature extractor to ONNX and performed inference using ONNX Runtime for cross-platform compatibility.</li>
@@ -458,7 +458,7 @@
             <button class="btn project-btn" onclick="window.open('https://github.com/vedantchavan004/Testing-Anomaly-Detection-with-PaDiM-ONNX', '_blank', 'noopener,noreferrer')">
               Github
             </button>
-            <button class="btn project-btn more-details-btn">More Details</button>
+            <button class="btn project-btn more-details-btn" aria-controls="project35-details">More Details</button>
           </div>
         </div>
 
@@ -492,7 +492,7 @@
             Developed a multimodal AI system that integrates computer vision and NLP using the BLIP-2 model to answer questions about image content.
           </p>
           <!-- More Details -->
-          <div class="project-details hidden">
+          <div class="project-details hidden" id="project4-details">
             <ul>
               <li>Built an AI system that answers questions about images using the BLIP-2 model, combining computer vision and NLP.</li>
               <li>Optimized model performance on NVIDIA A100 GPUs, making it 3x faster for real-time applications.</li>
@@ -503,7 +503,7 @@
             <button class="btn project-btn" onclick="window.open('https://github.com/vedantchavan004/Multimodal-VQA', '_blank', 'noopener,noreferrer')"> 
               Github
             </button>
-            <button class="btn project-btn more-details-btn">More Details</button>
+            <button class="btn project-btn more-details-btn" aria-controls="project4-details">More Details</button>
           </div>
         </div>
     
@@ -517,7 +517,7 @@
             Built a stereo vision pipeline for 3D point cloud reconstruction, achieving dense 3D models using SGBM and filtering.
           </p>
           <!-- More Details -->
-          <div class="project-details hidden">
+          <div class="project-details hidden" id="project5-details">
             <ul>
               <li>Developed a robust stereo vision pipeline using OpenCV to compute disparity maps and reconstruct 3D point clouds from stereo images, improving depth estimation accuracy.</li>
               <li>Optimized disparity computation by fine-tuning SGBM parameters and applying filtering techniques, reducing noise and enhancing 3D reconstruction quality.</li>
@@ -528,7 +528,7 @@
             <button class="btn project-btn" onclick="window.open('https://github.com/vedantchavan004/Stereo-Point-Cloud', '_blank', 'noopener,noreferrer')">
               Github
             </button>
-            <button class="btn project-btn more-details-btn">More Details</button>
+            <button class="btn project-btn more-details-btn" aria-controls="project5-details">More Details</button>
             <!-- No Live Demo -->
           </div>
         </div> 
@@ -543,7 +543,7 @@
             Implemented a U-Net model for defect detection, achieving 95% precision and reducing manual inspection time by 50%.
           </p>
           <!-- More Details -->
-          <div class="project-details hidden">
+          <div class="project-details hidden" id="project6-details">
             <ul>
               <li>Implemented a U-Net-based model for defect detection, achieving 95% precision in quality assurance.</li>
               <li>Built an AI pipeline processing 1000+ images per day, enhancing data throughput by 25%.</li>
@@ -554,7 +554,7 @@
             <button class="btn project-btn" onclick="window.open('https://github.com/vedantchavan004/Unet', '_blank', 'noopener,noreferrer')">
               Github
             </button>
-            <button class="btn project-btn more-details-btn">More Details</button>
+            <button class="btn project-btn more-details-btn" aria-controls="project6-details">More Details</button>
           </div>
         </div>
     
@@ -568,7 +568,7 @@
             Built a predictive maintenance model using XGBoost, achieving high accuracy in failure prediction for industrial systems.
           </p>
           <!-- More Details -->
-          <div class="project-details hidden">
+          <div class="project-details hidden" id="project7-details">
             <ul>
               <li>Developed an end-to-end predictive maintenance model leveraging XGBoost for industrial failure prediction.</li>
               <li>Achieved 98% accuracy by tuning model hyperparameters and implementing advanced analytics.</li>
@@ -579,7 +579,7 @@
             <button class="btn project-btn" onclick="window.open('https://github.com/vedantchavan004/Predictive-Maintenance-Using-XGBoost', '_blank', 'noopener,noreferrer')"> 
               Github
             </button>
-            <button class="btn project-btn more-details-btn">More Details</button>
+            <button class="btn project-btn more-details-btn" aria-controls="project7-details">More Details</button>
           </div>
         </div>
 
@@ -593,7 +593,7 @@
             Implemented a RL model for end effector path planning, optimizing robot arm trajectories in a 3D environment.
           </p>
           <!-- More Details -->
-          <div class="project-details hidden">
+          <div class="project-details hidden" id="project8-details">
             <ul>
               <li>Developed and implemented RL-based trajectory optimization in MATLAB, improving end-effector accuracy by 30% in reaching target positions.</li>
               <li>Trained the robot over 1,000 episodes using reward-based learning, reducing path deviation by 25% and ensuring efficient motion planning.</li>
@@ -604,7 +604,7 @@
             <button class="btn project-btn" onclick="window.open('https://github.com/vedantchavan004/Reinforcement-Learning-For-3DOF-Robot', '_blank', 'noopener,noreferrer')">
               Github
             </button>
-            <button class="btn project-btn more-details-btn">More Details</button>
+            <button class="btn project-btn more-details-btn" aria-controls="project8-details">More Details</button>
             <!-- No Live Demo -->
           </div>
         </div>
@@ -619,7 +619,7 @@
             Developed a deep learning model for classifying ECG signals, achieving 99% accuracy in detecting cardiac anomalies.
           </p>
           <!-- More Details -->
-          <div class="project-details hidden">
+          <div class="project-details hidden" id="project9-details">
             <ul>
               <li>Developed a deep learning model in Python for ECG signal classification, achieving 99% accuracy in detecting abnormal heart rhythms.</li>
               <li>Preprocessed and segmented raw ECG data, improving model training efficiency by 40% through feature extraction and noise reduction.</li>
@@ -630,7 +630,7 @@
             <button class="btn project-btn" onclick="window.open('https://github.com/vedantchavan004/ECG-Classification', '_blank', 'noopener,noreferrer')">
               Github
             </button>
-            <button class="btn project-btn more-details-btn">More Details</button>
+            <button class="btn project-btn more-details-btn" aria-controls="project9-details">More Details</button>
           </div>
         </div>
 
@@ -719,6 +719,7 @@
       <nav>
         <ul class="nav-links">
           <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
           <li><a href="#experience">Experience</a></li>
           <li><a href="#projects">Projects</a></li>
           <li><a href="#contact">Contact</a></li>
