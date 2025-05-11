@@ -455,7 +455,7 @@ nav a:hover {
 
 .experience-details li {
   position: relative;
-  padding-left: 1rem;
+  padding-left: 0.75rem;
   margin-bottom: 0.75rem;
   font-size: clamp(1rem, 1vw, 1rem);
   line-height: 1.6;
