@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
+!DOCTYPE html>
+<html lang="en" data-theme="light"> <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,7 +8,6 @@
     <link rel="icon" type="image/png" href="./assets/logo.png" />
   </head>
   <body>
-    <!-- Desktop Navigation -->
     <nav id="desktop-nav">
       <div class="logo">Vedant Chavan</div>
       <ul class="nav-links">
@@ -18,28 +16,46 @@
         <li><a href="#experience">Experience</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
+        <li class="theme-switch-container">
+          <div class="theme-switch-wrapper">
+            <em id="theme-icon-desktop" aria-hidden="true">☀️</em>
+            <label class="theme-switch" for="theme-toggle-desktop" aria-label="Toggle theme">
+              <input type="checkbox" id="theme-toggle-desktop" title="Toggle theme">
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </li>
       </ul>
     </nav>
 
-    <!-- Hamburger Navigation -->
     <nav id="hamburger-nav">
       <div class="logo">Vedant Chavan</div>
       <div class="hamburger-menu">
-        <div class="hamburger-icon" onclick="toggleMenu()">
-          <span></span>
+        <div class="hamburger-icon"> <span></span>
           <span></span>
           <span></span>
         </div>
         <ul class="menu-links">
           <li><a href="#about" onclick="toggleMenu()">About</a></li>
+          <li><a href="#skills" onclick="toggleMenu()">Skills</a></li> {/* You were missing skills here, added it back based on desktop nav */}
           <li><a href="#experience" onclick="toggleMenu()">Experience</a></li>
           <li><a href="#projects" onclick="toggleMenu()">Projects</a></li>
           <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+          <li>
+            <div class="theme-switch-wrapper">
+                <span style="display: flex; align-items: center; gap: 0.5em; padding-left: 0; /* Align with other menu text */">
+                    Theme: <em id="theme-icon-mobile" aria-hidden="true">☀️</em>
+                </span>
+                <label class="theme-switch" for="theme-toggle-mobile" aria-label="Toggle theme">
+                    <input type="checkbox" id="theme-toggle-mobile" title="Toggle theme">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+          </li>
         </ul>
       </div>
     </nav>
 
-    <!-- Profile Section -->
     <section id="profile">
       <div class="section__pic-container">
         <img src="./assets/Picture1.png" alt="Vedant Chavan" />
@@ -57,9 +73,7 @@
           <button class="btn btn-color-1" onclick="location.href='#contact'">
             Contact Info
           </button>
-          <!-- Theme Toggle Button -->
-          
-        </div>
+          </div>
         <br>
         <div id="socials-container">
           <img src="./assets/linkedin.png" alt="LinkedIn" class="icon" onclick="window.open('https://www.linkedin.com/in/vedant-chavan-97ml/', '_blank', 'noopener,noreferrer')"/>
