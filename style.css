@@ -1162,6 +1162,29 @@ input:checked + .slider:before {
   .certifications-grid {
       gap: 1.5rem;
   }
+  /*New*/
+  .about-content {
+    flex-direction: column;
+    align-items: center;      /* center all children */
+    text-align: center;       /* ensure text is centered */
+  }
+
+  .about-image {
+    align-self: center;       /* center the image container */
+    margin-bottom: 2rem;      /* give some breathing room below */
+  }
+
+  .about-info {
+    padding: 1rem 2rem;       /* add horizontal padding */
+  }
+
+  .about-stats {
+    justify-content: center;  /* center the stats blocks */
+  }
+
+  .stat {
+    min-width: 140px;         /* ensure stats aren't too narrow */
+  }
 }
 
 @media (max-width: 480px) {
