@@ -396,7 +396,7 @@ nav a:hover {
 #experience {
   position: relative;
   padding: 4vh 5%;
-  background: #f7f9fc;  /* Section background stays the same */
+  background: #f7f9fc;
 }
 
 .experience-header {
@@ -411,12 +411,10 @@ nav a:hover {
   width: 100%;
 }
 
-
-
 /* Default experience card and HELLA merged card */
 .experience-card,
 .merged-experience {
-  background: #e1eef1;  /* ✅ Light green-blue color */
+  background: #e1eef1;
   border: 1px solid #e0e0e0;
   border-radius: 1rem;
   padding: 2vh 2%;
@@ -489,7 +487,7 @@ nav a:hover {
 .experience-column {
   flex: 1 1 45%;
   padding: 1rem;
-  background-color: #e1eef1; /* ✅ Match card color */
+  background-color: #e1eef1;
   border-radius: 0.75rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
@@ -501,7 +499,6 @@ nav a:hover {
   color: #353535;
 }
 
-/* Use native bullets */
 .experience-column .experience-details {
   list-style: disc;
   padding-left: 1.5rem;
@@ -509,7 +506,6 @@ nav a:hover {
   color: #555;
 }
 
-/* Prevent double bullet issue */
 .experience-column .experience-details li {
   margin-bottom: 0.75rem;
   line-height: 1.6;
@@ -521,21 +517,30 @@ nav a:hover {
 }
 
 /* Mobile responsiveness */
-/* Add this new media query */
 @media (max-width: 768px) {
+  #experience {
+    padding: 2vh 0; /* Remove side padding to allow edge-to-edge */
+  }
+
   .experience-grid {
-    grid-template-columns: 1fr; /* Force full width on small screens */
+    grid-template-columns: 1fr;
     padding: 0;
   }
 
   .experience-card,
   .merged-experience {
-    border-radius: 0;         /* Optional: remove rounding to edge */
-    padding: 2vh 5%;          /* Optional: add slight side padding */
-    box-shadow: none;         /* Optional: remove shadow if you want flat design */
+    border-radius: 0;
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-shadow: none;
+  }
+
+  .experience-column {
+    border-radius: 0;
+    background-color: #e1eef1;
   }
 }
-
 /* PROJECTS */
 #projects {
   position: relative;
