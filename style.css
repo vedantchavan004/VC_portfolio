@@ -453,6 +453,87 @@ nav a:hover {
   font-size: 1.2rem;
 }
 
+/*NEW */
+/* HELLA Combined Experience Styles */
+.merged-experience {
+  background: #e1eef1;
+  border: 1px solid #e0e0e0;
+  border-radius: 1rem;
+  padding: 2vh 2%;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.merged-experience:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.15);
+}
+
+.merged-experience .experience-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.merged-experience .experience-company {
+  font-size: clamp(1.5rem, 1.75vw, 1.75rem);
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.merged-experience .experience-duration,
+.merged-experience .experience-role {
+  font-size: clamp(1rem, 1vw, 1rem);
+  color: #777;
+  margin-bottom: 0.5rem;
+}
+
+.experience-split {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: space-between;
+}
+
+.experience-column {
+  flex: 1 1 45%;
+  padding: 1rem;
+  background-color: #f4fafd;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.sub-role {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #353535;
+}
+
+.experience-column .experience-details {
+  list-style: disc;
+  padding-left: 1.5rem;
+  font-size: clamp(1rem, 1vw, 1rem);
+  color: #555;
+}
+
+.experience-column .experience-details li {
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .experience-split {
+    flex-direction: column;
+  }
+
+  .experience-column {
+    flex: 1 1 100%;
+  }
+}
+/* END NEW */
+
 /* PROJECTS */
 #projects {
   position: relative;
