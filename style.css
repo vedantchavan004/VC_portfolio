@@ -396,7 +396,7 @@ nav a:hover {
 #experience {
   position: relative;
   padding: 4vh 5%;
-  background: #f7f9fc;
+  background: #f7f9fc;  /* Section background stays the same */
 }
 
 .experience-header {
@@ -410,10 +410,10 @@ nav a:hover {
   gap: 2vh;
 }
 
-/* Default experience card */
+/* Default experience card and HELLA merged card */
 .experience-card,
 .merged-experience {
-  background: #f7f9fc; /* Updated to match section background */
+  background: #e1eef1;  /* ✅ Light green-blue color */
   border: 1px solid #e0e0e0;
   border-radius: 1rem;
   padding: 2vh 2%;
@@ -445,7 +445,7 @@ nav a:hover {
   margin-bottom: 1vh;
 }
 
-/* Global bullet list */
+/* Global list style for cards */
 .experience-details {
   list-style: none;
   padding: 0;
@@ -486,7 +486,7 @@ nav a:hover {
 .experience-column {
   flex: 1 1 45%;
   padding: 1rem;
-  background-color: #f7f9fc; /* Matches the section */
+  background-color: #e1eef1; /* ✅ Match card color */
   border-radius: 0.75rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
@@ -506,7 +506,7 @@ nav a:hover {
   color: #555;
 }
 
-/* Avoid duplicate bullets in HELLA list */
+/* Prevent double bullet issue */
 .experience-column .experience-details li {
   margin-bottom: 0.75rem;
   line-height: 1.6;
@@ -517,8 +517,7 @@ nav a:hover {
   content: none;
 }
 
-
-/* Responsive layout for HELLA section */
+/* Mobile responsiveness */
 @media (max-width: 768px) {
   .experience-split {
     flex-direction: column;
@@ -528,6 +527,7 @@ nav a:hover {
     flex: 1 1 100%;
   }
 }
+
 /* PROJECTS */
 #projects {
   position: relative;
