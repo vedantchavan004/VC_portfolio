@@ -36,14 +36,14 @@
   --skill-card-header-bg-start: #292929;
   --skill-card-header-bg-end: #555;
   --skill-card-header-text: #fff;
-  --skill-card-item-bg: #fafafa;
+  --skill-card-item-bg: #fafafa; /* Used for project-details background */
   --experience-card-bg: #e1eef1;
   --experience-card-border: #e0e0e0;
   --experience-details-text: #555;
   --experience-bullet-color: #353535;
   --contact-form-bg: #f7f9fc;
-  --form-input-bg: #fff; /* Added for form inputs */
-  --form-input-text-color: #333; /* Added for form inputs */
+  --form-input-bg: #fff; 
+  --form-input-text-color: #333; 
   --form-input-border: #ccc;
   --form-input-focus-border: #353535;
   --footer-bg: #f1f1f1;
@@ -69,9 +69,6 @@
   --hamburger-icon-color: #e0e0e0;
   --menu-links-bg: #1e1e1e;
   --menu-links-shadow: rgba(255,255,255,0.05);
-  /* Hero section could be adjusted if needed, but it's already dark */
-  /* --hero-bg-gradient-start: #1a1a1a; */
-  /* --hero-bg-gradient-end: #2c2c2c; */
   --hero-text-color: #f0f0f0;
   --hero-button-bg: #333;
   --hero-button-text-color: #f0f0f0;
@@ -91,17 +88,14 @@
   --about-info-text-color: #bbb;
   --stat-text-color: #aaa;
   --skills-header-text-color: #aaa;
-  /* --skill-card-header-bg-start: #333; */ /* Skill card header remains dark */
-  /* --skill-card-header-bg-end: #666;   */
-  /* --skill-card-header-text: #e0e0e0; */
-  --skill-card-item-bg: #333;
+  --skill-card-item-bg: #333; /* Used for project-details background */
   --experience-card-bg: #2c2c2c;
   --experience-card-border: #444;
   --experience-details-text: #bbb;
   --experience-bullet-color: #e0e0e0;
   --contact-form-bg: #1e1e1e;
-  --form-input-bg: #2a2a2a; /* Darker background for form inputs */
-  --form-input-text-color: #ccc; /* Lighter text for form inputs */
+  --form-input-bg: #2a2a2a; 
+  --form-input-text-color: #ccc; 
   --form-input-border: #555;
   --form-input-focus-border: #2196f3;
   --footer-bg: #1a1a1a;
@@ -110,7 +104,7 @@
   --proficiency-text: #e0e0e0;
   --institute-bg: #444;
   --institute-text: #e0e0e0;
-  --success-feedback-color: #4caf50; /* Brighter green for dark mode */
+  --success-feedback-color: #4caf50;
 }
 
 * {
@@ -148,7 +142,6 @@ nav {
   align-items: center;
   height: 17vh;
   padding: 0 2rem;
-  /* background: var(--nav-bg, transparent); */ /* Add if nav becomes sticky and needs distinct bg */
 }
 .nav-links {
   display: flex;
@@ -215,21 +208,21 @@ nav a:hover {
   z-index: 1000;
 }
 .menu-links.open {
-  max-height: 300px; /* Adjust as needed */
+  max-height: 300px; 
 }
 .menu-links li {
   list-style: none;
 }
-.menu-links a { /* Style for links directly inside .menu-links > li */
+.menu-links a { 
   display: block;
-  padding: 10px 20px; /* Ensure consistent padding */
+  padding: 10px 20px; 
   font-size: clamp(1rem, 1.5vw, 1.5rem);
   color: var(--nav-link-color);
   text-decoration: none;
 }
 .menu-links a:hover {
   color: var(--nav-link-hover-color);
-  background-color: rgba(0,0,0,0.05); /* Subtle hover for menu items */
+  background-color: rgba(0,0,0,0.05); 
 }
 [data-theme="dark"] .menu-links a:hover {
   background-color: rgba(255,255,255,0.05);
@@ -291,7 +284,6 @@ nav a:hover {
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
-  /* border: 3px solid var(--card-border-color); */ /* Optional themed border */
 }
 .section__text {
   text-align: center;
@@ -301,11 +293,11 @@ nav a:hover {
   font-weight: 500;
   color: var(--text-color);
 }
-.section__text__p2 { /* For typing animation text like "AI Engineer" */
+.section__text__p2 { 
   font-size: clamp(1.25rem, 1.75vw, 1.75rem);
   margin-bottom: 1rem;
-  color: var(--text-color-strong); /* Use stronger text color */
-  font-weight: 600; /* Make it stand out */
+  color: var(--text-color-strong); 
+  font-weight: 600; 
 }
 .title {
   font-size: clamp(2rem, 3vw, 3rem);
@@ -343,17 +335,12 @@ nav a:hover {
   gap: 1rem;
   margin-top: 1rem;
 }
-.icon { /* Assuming these are <img> or <i> elements */
+.icon { 
   width: 2rem;
   height: 2rem;
   cursor: pointer;
   transition: filter var(--transition-speed) var(--transition-ease);
 }
-[data-theme="dark"] .icon { /* For non-SVG icons that need inverting */
-  /* filter: invert(1) brightness(0.8) contrast(1.2) hue-rotate(180deg); */
-  /* Better to use SVGs with fill="currentColor" or two image versions */
-}
-/* If using SVG icons: svg { fill: var(--icon-color); } */
 
 
 /* ABOUT */
@@ -411,7 +398,6 @@ nav a:hover {
 .stat img {
   width: 50px;
   margin-bottom: 0.5rem;
-  /* [data-theme="dark"] & { filter: invert(1); } // if needed */
 }
 .stat h3 {
   font-size: clamp(1.2rem, 1.5vw, 1.5rem);
@@ -484,7 +470,7 @@ nav a:hover {
   max-height: 0;
   overflow: hidden;
   background: var(--card-bg);
-  transition: max-height 0.5s ease, background var(--transition-speed) var(--transition-ease), padding 0.5s ease;
+  transition: max-height 0.5s ease-out, background var(--transition-speed) var(--transition-ease), padding 0.5s ease-out;
   padding: 0 2%;
 }
 .skill-card.expanded .card-content {
@@ -531,8 +517,6 @@ nav a:hover {
   height: 3rem;
   cursor: pointer;
   transition: transform 0.3s ease;
-  /* If arrow is an <img> that needs inversion: */
-  /* [data-theme="dark"] & { filter: invert(1); } */
 }
 .arrow:hover {
   transform: translateX(5px);
@@ -622,9 +606,9 @@ nav a:hover {
 .experience-column {
   flex: 1 1 45%;
   padding: 1rem;
-  background-color: var(--experience-card-bg); /* Or slightly different shade like var(--card-bg) */
+  background-color: var(--experience-card-bg); 
   border-radius: 0.75rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.04); /* Softer inner shadow */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04); 
   transition: background-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
 }
 .sub-role {
@@ -675,24 +659,26 @@ nav a:hover {
   justify-items: center;
   margin-bottom: 3vh;
 }
+
 .hidden {
-  display: none !important; /* Ensure it stays hidden */
+  display: none; 
 }
+
 .project-card {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; Removed to allow natural height flow */
   align-items: center;
   background: var(--card-bg);
   border-radius: 1rem;
   box-shadow: 0 8px 20px var(--card-shadow);
-  overflow: hidden;
+  overflow: visible; 
   transition: transform 0.3s ease, box-shadow 0.3s ease, background var(--transition-speed) var(--transition-ease);
   width: 100%;
   max-width: 320px;
   text-align: center;
   padding: 1rem;
-  min-height: 500px;
+  min-height: 300px; /* Adjusted min-height, can be removed if not desired */
 }
 .project-card:hover {
   transform: translateY(-5px);
@@ -719,33 +705,106 @@ nav a:hover {
   font-weight: 600;
   color: var(--title-color);
   margin-bottom: 0.5rem;
+  min-height: 2.5em; /* Adjusted for typical title lengths */
 }
+
+/* project-info: for the short description */
 .project-info {
-  flex-grow: 1;
+  /* flex-grow: 1; Removed to allow natural shrink/grow */
   font-size: clamp(0.9rem, 1vw, 0.9rem);
   color: var(--text-color);
-  margin-bottom: 1rem;
+  margin-bottom: 1rem; /* Default margin */
+  width: 100%; /* Ensure it takes available width */
+  
+  /* Animation properties for smooth disappearance/appearance */
+  opacity: 1;
+  max-height: 10em; /* Adjust based on typical content height, e.g., 5 lines * 1.6 line-height * font-size */
+  overflow: hidden;
+  visibility: visible;
+  transition: 
+    opacity var(--transition-speed) var(--transition-ease),
+    max-height 0.3s var(--transition-ease), /* Control speed of collapse/expand */
+    margin-bottom var(--transition-speed) var(--transition-ease),
+    padding-top var(--transition-speed) var(--transition-ease), /* If you add padding */
+    padding-bottom var(--transition-speed) var(--transition-ease), /* If you add padding */
+    visibility 0s 0s; /* Immediate visibility change */
 }
+
+.project-info.project-info-hidden {
+  opacity: 0;
+  max-height: 0;
+  margin-bottom: 0; /* Collapse margin when hidden */
+  padding-top: 0;
+  padding-bottom: 0;
+  visibility: hidden;
+  transition: 
+    opacity var(--transition-speed) var(--transition-ease),
+    max-height 0.3s var(--transition-ease),
+    margin-bottom var(--transition-speed) var(--transition-ease),
+    padding-top var(--transition-speed) var(--transition-ease),
+    padding-bottom var(--transition-speed) var(--transition-ease),
+    visibility 0s var(--transition-speed); /* Delay hiding until animation ends */
+}
+
+
+/* project-details: for the bullet-point list */
 .project-details {
-  display: none;
   text-align: left;
-  padding: 0.5rem 1rem;
-  background: var(--skill-card-item-bg); /* Consistent with skill items */
+  padding: 0 1rem; 
+  background: var(--skill-card-item-bg); 
   border-radius: 0.5rem;
-  margin-top: 0.5rem;
-  transition: background var(--transition-speed) var(--transition-ease);
+  /* margin-top: 0.5rem; /* Margin applied by .project-info or when .project-info is hidden */
+  width: calc(100% - 0.5rem); 
+  box-sizing: border-box;
+  
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  margin-top: 0; /* No margin when hidden */
+  transition: 
+    opacity var(--transition-speed) var(--transition-ease),
+    max-height 0.5s var(--transition-ease), 
+    padding 0.5s var(--transition-ease), 
+    margin-top 0.5s var(--transition-ease),
+    visibility 0s var(--transition-speed); 
 }
+
+.project-details.hidden { 
+    opacity: 0;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    visibility: hidden;
+}
+
+.project-details.details-visible {
+  opacity: 1;
+  visibility: visible;
+  padding: 0.75rem 1rem; 
+  margin-top: 0.5rem; /* Add margin when visible */
+  transition: 
+    opacity var(--transition-speed) var(--transition-ease),
+    max-height 0.5s var(--transition-ease),
+    padding 0.5s var(--transition-ease),
+    margin-top 0.5s var(--transition-ease),
+    visibility 0s 0s; 
+}
+
 .project-details ul {
   padding-left: 1.2rem;
   list-style-type: disc;
-  font-size: 0.9rem;
+  font-size: 0.85rem; 
   color: var(--text-color);
 }
 .project-details li {
   margin-bottom: 0.3rem;
+  line-height: 1.5;
 }
+
 /* Project Buttons */
-.project-btn { /* This is the secondary-like button (More Details, Github, Live Demo) */
+.project-btn { 
   padding: 0.5rem 1rem;
   border-radius: 2rem;
   border: 2px solid var(--btn-secondary-border);
@@ -754,24 +813,26 @@ nav a:hover {
   cursor: pointer;
   transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
   font-size: 0.85rem;
+  margin-top: auto; /* Push buttons to the bottom of the card */
 }
 [data-theme="light"] .project-btn:hover {
-    background: var(--btn-secondary-text); /* #353535 */
+    background: var(--btn-secondary-text); 
     color: #fff;
     border-color: var(--btn-secondary-text);
     transform: scale(1.05);
 }
 [data-theme="dark"] .project-btn:hover {
-    background: var(--btn-secondary-text); /* #e0e0e0 */
-    color: #121212; /* Dark text on light hover background */
+    background: var(--btn-secondary-text); 
+    color: #121212; 
     border-color: var(--btn-secondary-text);
     transform: scale(1.05);
 }
 
 .view-more-container {
   text-align: center;
+  margin-top: 2rem; /* Add some space above view more button */
 }
-.view-more-btn { /* This is the primary-like button (View More Projects) */
+.view-more-btn { 
   padding: 1rem 2rem;
   border-radius: 2rem;
   background: var(--btn-primary-bg);
@@ -792,7 +853,7 @@ nav a:hover {
   align-items: center;
   padding: 4vh 5%;
   min-height: 70vh;
-  background: var(--card-bg); /* Using card-bg for distinction */
+  background: var(--card-bg); 
   transition: background var(--transition-speed) var(--transition-ease);
 }
 #contact .section__text__p1,
@@ -990,11 +1051,11 @@ footer nav {
   flex-wrap: wrap;
   justify-content: center;
   gap: 2rem;
-  margin-bottom: 1rem; /* As per your original combined footer */
+  margin-bottom: 1rem; 
 }
 footer .nav-links {
   display: flex;
-  gap: 1rem; /* As per your original combined footer nav-links */
+  gap: 1rem; 
   flex-wrap: wrap;
   list-style: none;
   padding: 0;
@@ -1009,9 +1070,9 @@ footer .nav-links li a {
 footer .nav-links li a:hover {
   color: var(--nav-link-hover-color);
 }
-footer p { /* Copyright text */
+footer p { 
   font-size: 0.9rem;
-  margin: 0; /* Reset from original to match combined */
+  margin: 0; 
   color: var(--text-color);
 }
 
@@ -1021,12 +1082,11 @@ footer p { /* Copyright text */
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  /* margin-left: 1rem; /* Adjust based on placement in nav */
 }
-.theme-switch-wrapper em { /* For Sun/Moon icon text */
-    font-size: 1rem; /* Consistent with nav link text */
+.theme-switch-wrapper em { 
+    font-size: 1rem; 
     color: var(--nav-link-color);
-    cursor: default; /* If it's just text, not clickable */
+    cursor: default; 
 }
 .theme-switch {
   display: inline-block;
@@ -1060,25 +1120,23 @@ footer p { /* Copyright text */
   border-radius: 50%;
 }
 input:checked + .slider {
-  background-color: var(--nav-link-hover-color); /* Use a theme color for active state */
+  background-color: var(--nav-link-hover-color); 
 }
-[data-theme="dark"] .slider { /* Default state of slider in dark mode */
-    background-color: #555; /* Darker track */
+[data-theme="dark"] .slider { 
+    background-color: #555; 
 }
-[data-theme="dark"] input:checked + .slider { /* Checked state of slider in dark mode */
-    background-color: var(--nav-link-hover-color); /* Consistent active color */
+[data-theme="dark"] input:checked + .slider { 
+    background-color: var(--nav-link-hover-color); 
 }
-[data-theme="dark"] .slider:before { /* Knob in dark mode (unchecked) */
-    background-color: #bbb; /* Lighter knob for dark track */
+[data-theme="dark"] .slider:before { 
+    background-color: #bbb; 
 }
-/* Knob color when checked is white by default, which works for both themes when slider bg changes */
 
 input:checked + .slider:before {
   transform: translateX(24px);
 }
 
 /* MEDIA QUERIES */
-/* For tablets and below (Languages/Certifications) */
 @media (max-width: 768px) {
   #languages, #certifications {
     padding: 2vh 2rem;
@@ -1087,7 +1145,7 @@ input:checked + .slider:before {
     gap: 1.5rem;
   }
   .language-card {
-    max-width: 100%; /* Let flexbox handle sizing */
+    max-width: 100%; 
   }
   .certification-link {
     max-width: 100%;
@@ -1097,7 +1155,6 @@ input:checked + .slider:before {
   }
 }
 
-/* For very small devices (Languages/Certifications specific) */
 @media (max-width: 480px) {
   .languages-header .title, .certifications-header .title {
     font-size: 2rem;
@@ -1111,7 +1168,6 @@ input:checked + .slider:before {
   }
 }
 
-/* Tablets & Larger Devices (General) */
 @media screen and (max-width: 1400px) {
   #profile {
     height: auto;
@@ -1123,7 +1179,6 @@ input:checked + .slider:before {
   }
 }
 
-/* Tablets & Smaller Devices (Navigation & Layout) */
 @media screen and (max-width: 1200px) {
   #desktop-nav {
     display: none;
@@ -1132,29 +1187,26 @@ input:checked + .slider:before {
     display: flex;
   }
   #profile {
-    padding: 4vh 5%; /* Original padding */
+    padding: 4vh 5%; 
   }
   .section__pic-container {
-    width: clamp(250px, 33vw, 275px); /* Max width from original query */
+    width: clamp(250px, 33vw, 275px); 
     margin: 0 auto 2rem;
   }
-  /* section { margin: 0 5%; } */ /* Removed, use padding on sections instead for better control */
 }
 
-/* Mobile Devices (Layout, Navigation, Sections) */
 @media screen and (max-width: 768px) {
-  /* General section padding for mobile */
   section {
     padding-left: 2rem;
     padding-right: 2rem;
-    margin-left: 0; /* Remove potential margin from wider screens */
+    margin-left: 0; 
     margin-right: 0;
   }
   #profile {
     flex-direction: column;
     text-align: center;
     gap: 2rem;
-    padding: 2vh 2rem; /* Specific padding for profile on mobile */
+    padding: 2vh 2rem; 
   }
   .about-content {
     flex-direction: column;
@@ -1172,39 +1224,35 @@ input:checked + .slider:before {
     padding: 1rem 2rem;
   }
   #hamburger-nav .logo {
-    font-size: clamp(1.5rem, 2vw, 1.8rem); /* Adjusted max based on original */
+    font-size: clamp(1.5rem, 2vw, 1.8rem); 
   }
-  /* Hamburger menu .nav-links (inside .menu-links) */
   .menu-links .nav-links {
     flex-direction: column;
-    align-items: flex-start; /* Align text to the left in dropdown */
-    gap: 0; /* Remove gap, padding on <a> elements will handle spacing */
-    font-size: clamp(1rem, 1.5vw, 1.1rem); /* Adjusted max */
+    align-items: flex-start; 
+    gap: 0; 
+    font-size: clamp(1rem, 1.5vw, 1.1rem); 
     width: 100%;
   }
   .menu-links .nav-links li {
       width: 100%;
   }
   .menu-links .nav-links a {
-      padding: 12px 20px; /* Consistent padding for tappable areas */
+      padding: 12px 20px; 
       width: 100%;
       box-sizing: border-box;
   }
-  /* Theme toggle inside hamburger menu */
   .menu-links .theme-switch-wrapper {
       padding: 12px 20px;
-      justify-content: space-between; /* Space out "Theme" text and toggle */
+      justify-content: space-between; 
       width: 100%;
       box-sizing: border-box;
   }
   .menu-links .theme-switch-wrapper em {
-      color: var(--nav-link-color); /* Ensure icon/text matches other links */
+      color: var(--nav-link-color); 
   }
 
-
-  /* Experience section on mobile */
   #experience {
-    padding: 2vh 0; /* Remove side padding, cards will be full width */
+    padding: 2vh 0; 
   }
   .experience-grid {
     grid-template-columns: 1fr;
@@ -1214,10 +1262,10 @@ input:checked + .slider:before {
   .merged-experience {
     border-radius: 0;
     width: 100%;
-    padding-left: 2rem; /* Add padding inside the card */
+    padding-left: 2rem; 
     padding-right: 2rem;
     box-shadow: none;
-    border-bottom: 1px solid var(--card-border-color); /* Separator */
+    border-bottom: 1px solid var(--card-border-color); 
   }
    .experience-card:last-child,
    .merged-experience:last-child {
@@ -1230,40 +1278,37 @@ input:checked + .slider:before {
     flex: 1 1 100%;
     border-radius: 0;
     box-shadow: none;
-    padding: 1rem 0; /* Adjust padding for inner columns */
+    padding: 1rem 0; 
   }
 
   footer {
     margin-top: 5rem;
   }
-  /* Footer on mobile */
   footer nav {
     flex-direction: column;
     gap: 1rem;
-    margin-bottom: 2rem; /* Adjusted from original */
+    margin-bottom: 2rem; 
   }
-  footer .nav-links { /* Footer specific nav links */
+  footer .nav-links { 
     flex-direction: column;
     gap: 1rem;
   }
 }
 
-/* Very Small Devices (General adjustments) */
 @media screen and (max-width: 480px) {
-  .card-header h2 { /* Reduce header size in skill cards */
+  .card-header h2 { 
     font-size: clamp(1.2rem, 1.75vw, 1.5rem);
   }
   .project-btn,
   .view-more-btn,
   .submit-btn {
     padding: 0.8rem 1rem;
-    font-size: 0.9rem; /* Slightly smaller font on buttons */
+    font-size: 0.9rem; 
   }
-  .title { /* Reduce general title size */
+  .title { 
     font-size: clamp(1.8rem, 3vw, 2rem);
   }
-  .section__text__p2 { /* Reduce sub-title size */
+  .section__text__p2 { 
     font-size: clamp(1.1rem, 1.75vw, 1.25rem);
   }
-  /* .text-container { text-align: justify; } */ /* Apply if .text-container class exists and is used */
 }
