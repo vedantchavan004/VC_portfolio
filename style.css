@@ -517,15 +517,6 @@ nav a:hover {
   content: none;
 }
 
-.experience-column:not(:last-child) {
-  border-bottom: 1px dashed #ccc;
-}
-@media (min-width: 769px) {
-  .experience-column:not(:last-child) {
-    border-bottom: none;
-    border-right: 1px dashed #ccc;
-  }
-}
 
 /* Responsive layout for HELLA section */
 @media (max-width: 768px) {
