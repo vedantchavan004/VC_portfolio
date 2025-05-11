@@ -1162,29 +1162,7 @@ input:checked + .slider:before {
   .certifications-grid {
       gap: 1.5rem;
   }
-  /*New*/
-  .about-content {
-    flex-direction: column;
-    align-items: center;      /* center all children */
-       /* ensure text is centered */
-  }
-
-  .about-image {
-    align-self: center;       /* center the image container */
-    margin-bottom: 2rem;      /* give some breathing room below */
-  }
-
-  .about-info {
-    padding: 1rem 2rem;       /* add horizontal padding */
-  }
-
-  .about-stats {
-    justify-content: center;  /* center the stats blocks */
-  }
-
-  .stat {
-    min-width: 140px;         /* ensure stats aren't too narrow */
-  }
+  
 }
 
 @media (max-width: 480px) {
@@ -1247,6 +1225,7 @@ input:checked + .slider:before {
   .about-image img { /* No change needed here if already responsive */
     /* width: 100%; */ /* Already there */
     /* max-width: 300px; */ /* Already there */
+    align-self: center;
     margin: 0 auto 2rem; /* Add bottom margin when stacked */
   }
   .about-stats {
