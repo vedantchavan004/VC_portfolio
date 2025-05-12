@@ -18,7 +18,8 @@
         <li><a href="#contact">Contact</a></li>
         <li class="theme-switch-container">
           <div class="theme-switch-wrapper">
-            <em id="theme-icon-desktop" aria-hidden="true">☀️</em>
+            <span id="theme-icon-desktop" class="theme-icon-container" aria-hidden="true">
+              </span>
             <label class="theme-switch" for="theme-toggle-desktop" aria-label="Toggle theme">
               <input type="checkbox" id="theme-toggle-desktop" title="Toggle theme">
               <span class="slider round"></span>
@@ -42,16 +43,18 @@
           <li><a href="#projects" onclick="toggleMenu()">Projects</a></li>
           <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
           <li>
-            <div class="theme-switch-wrapper">
-                <span style="display: flex; align-items: center; gap: 0.5em; padding-left: 0; /* Align with other menu text */">
-                    Theme: <em id="theme-icon-mobile" aria-hidden="true">☀️</em>
+          <div class="theme-switch-wrapper">
+            <span style="display: flex; align-items: center; gap: 0.5em; padding-left: 0;">
+              Theme:
+              <span id="theme-icon-mobile" class="theme-icon-container" aria-hidden="true">
                 </span>
-                <label class="theme-switch" for="theme-toggle-mobile" aria-label="Toggle theme">
-                    <input type="checkbox" id="theme-toggle-mobile" title="Toggle theme">
-                    <span class="slider round"></span>
-                </label>
-            </div>
-          </li>
+            </span>
+            <label class="theme-switch" for="theme-toggle-mobile" aria-label="Toggle theme">
+              <input type="checkbox" id="theme-toggle-mobile" title="Toggle theme">
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </li>
         </ul>
       </div>
     </nav>
