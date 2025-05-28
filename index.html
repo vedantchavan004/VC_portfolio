@@ -485,25 +485,27 @@
         <!-- Project 4 -->
         <div class="project-card">
           <div class="project-img-container">
-            <img src="./assets/vqa.png" alt="Project 4" class="project-img" />
+            <img src="./assets/vqa.png" alt="BLIP-1 Optimization Demo" class="project-img" />
           </div>
-          <h2 class="project-title">Multimodal Visual Question Answering (VQA)</h2>
+          <h2 class="project-title">BLIP-1 Optimization for Efficient Image Captioning</h2>
           <p class="project-info">
-            Developed a multimodal AI system that integrates computer vision and NLP using the BLIP-2 model to answer questions about image content.
+            Optimized BLIP-1 image-captioning on CPU via dynamic quantization and pruning, achieving 1.42× speedup with no accuracy loss.
           </p>
-          <!-- More Details -->
           <div class="project-details hidden" id="project4-details">
             <ul>
-              <li>Built an AI system that answers questions about images using the BLIP-2 model, combining computer vision and NLP.</li>
-              <li>Optimized model performance on NVIDIA A100 GPUs, making it 3x faster for real-time applications.</li>
-              <li>Designed a modular and scalable codebase, enabling easy integration into AI assistants and image captioning tools.</li> 
+              <li>Baseline BLIP-1 CPU inference in 0.69 s for correct captions.</li>
+              <li>Applied dynamic quantization to all Linear layers, reducing latency to 0.48 s.</li>
+              <li>Combined 30% L1 pruning + quantization for a 1.40× speedup.</li>
+              <li>Preserved caption quality (“a man and his dog”) across all variants.</li>
             </ul>
           </div>
           <div class="btn-container">
-            <button class="btn project-btn" onclick="window.open('https://github.com/vedantchavan004/Multimodal-VQA', '_blank', 'noopener,noreferrer')"> 
-              Github
+            <button class="btn project-btn" onclick="window.open('https://github.com/yourusername/blip1-opt-demo', '_blank', 'noopener,noreferrer')">
+              GitHub
             </button>
-            <button class="btn project-btn more-details-btn" aria-controls="project4-details">More Details</button>
+            <button class="btn project-btn more-details-btn" aria-controls="project4-details">
+              More Details
+            </button>
           </div>
         </div>
     
