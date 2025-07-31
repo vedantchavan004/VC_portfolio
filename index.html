@@ -446,6 +446,36 @@
           </div>
         </div>
 
+        <!-- Project 3.7 -->
+        <div class="project-card">
+          <div class="project-img-container">
+            <img src="./assets/unet_result.png" alt="U-Net Segmentation" class="project-img" />
+          </div>
+        
+          <h2 class="project-title">U-Net for Biological Image Segmentation</h2>
+        
+          <p class="project-info">
+            Trained a U-Net model on fluorescence microscopy images to segment nuclei structures with high accuracy.
+          </p>
+        
+          <!-- More Details -->
+          <div class="project-details hidden" id="project3.7-details">
+            <ul>
+              <li>Parsed and preprocessed instance masks into binary labels using CLAHE and Gaussian blur.</li>
+              <li>Built a lightweight U-Net in PyTorch; trained for 100 epochs on nuclei segmentation dataset.</li>
+              <li>Achieved Dice score of <strong>0.89</strong> and IoU of <strong>0.82</strong> on the validation set.</li>
+              <li>Visualized predicted masks and prepared inference-ready model using Colab.</li>
+            </ul>
+          </div>
+        
+          <div class="btn-container">
+            <button class="btn project-btn" onclick="window.open('https://github.com/vedantchavan004/biological-image-segmentation-unet', '_blank', 'noopener,noreferrer')">
+              Github
+            </button>
+            <button class="btn project-btn more-details-btn" aria-controls="project3.7-details">More Details</button>
+          </div>
+        </div>
+
         <!-- Project 3.6 -->
         <div class="project-card">
           <div class="project-img-container">
