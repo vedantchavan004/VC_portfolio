@@ -216,7 +216,7 @@ nav a:hover {
   z-index: 1000;
 }
 .menu-links.open {
-  max-height: 360px;
+  max-height: 330px;
 }
 .menu-links li {
   list-style: none;
