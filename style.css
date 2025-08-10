@@ -1613,14 +1613,17 @@ section#experience .tech-stack { margin: 0 .0 .5rem 1.25rem; font-style: italic;
   margin: .5rem 0 0.5rem;
 }
 .skill-chip {
-  display: inline-block;
-  padding: .25rem .6rem;
+  padding: 0.4rem 0.75rem;
   border-radius: 999px;
-  border: 1px solid var(--badge-border, rgba(255,255,255,0.15));
-  background: var(--badge-bg, rgba(255,255,255,0.04));
-  color: var(--stat-text-color);
-  font-size: .85rem;
-  white-space: nowrap;
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  /* Adaptive border and background */
+  border: 1px solid color-mix(in srgb, var(--chip-accent) 25%, transparent);
+  background-color: color-mix(in srgb, var(--chip-accent) 8%, transparent);
+  color: var(--chip-accent);
+
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 /* === Glass Navbar === */
