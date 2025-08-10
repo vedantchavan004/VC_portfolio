@@ -38,7 +38,7 @@
   --skill-card-header-text: #fff;
   --skill-card-item-bg: #fafafa;
   --experience-card-bg: #e1eef1;
-  --experience-card-border: #e0e0e0;
+  --experience-card-border: #323232;
   --experience-details-text: #555;
   --experience-bullet-color: #353535;
   --contact-form-bg: #f7f9fc;
@@ -54,6 +54,7 @@
   --institute-text: #353535;
   --success-feedback-color: #28a745;
   --chip-accent: var(--text-color-strong);
+  --section-bg-alt: color-mix(in srgb, var(--section-bg) 96%, var(--text-color-strong) 4%);
 
   /* Transitions */
   --transition-speed: 300ms;
