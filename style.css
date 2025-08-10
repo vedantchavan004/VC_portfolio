@@ -32,11 +32,11 @@
   --icon-color: #353535; /* Default icon color for light theme */
   --about-info-text-color: #444;
   --stat-text-color: #777;
-  --skills-header-text-color: #aaa;
+  --skills-header-text-color: #777;
   --skill-card-header-bg-start: #292929;
   --skill-card-header-bg-end: #555;
   --skill-card-header-text: #fff;
-  --skill-card-item-bg: #333;
+  --skill-card-item-bg: #fafafa;
   --experience-card-bg: #e1e7ee;
   --experience-card-border: #323232;
   --experience-details-text: #353535;
