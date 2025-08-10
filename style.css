@@ -1693,3 +1693,58 @@ section#experience > .experience-header .title { margin-top: 0; }
   background: rgba(255,255,255,0.06);
 }
 
+
+
+/* =============================
+   Mobile tweaks: HELLA experience
+   ============================= */
+@media (max-width: 768px) {
+  /* Make the HELLA merged card easier to read on phones */
+  #experience .merged-experience {
+    padding: 1rem 1rem;
+  }
+
+  #experience .merged-experience .experience-header {
+    text-align: left;
+    margin-bottom: 0.75rem;
+  }
+
+  /* Stack the two roles vertically instead of side‑by‑side */
+  #experience .experience-split {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  #experience .experience-column {
+    flex: 1 1 100%;
+    padding: 0.5rem 0;
+    /* remove inner card feel to avoid cramped look on mobile */
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  #experience .sub-role {
+    font-size: 1.05rem;
+    margin-bottom: 0.35rem;
+  }
+
+  /* Improve bullet readability and reduce wasted space */
+  #experience .experience-column .experience-details {
+    padding-left: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+  #experience .experience-column .experience-details li {
+    margin-bottom: 0.5rem;
+  }
+
+  /* Slightly smaller heading & compact duration */
+  #experience .merged-experience .experience-company {
+    font-size: 1.2rem;
+  }
+  #experience .merged-experience .experience-duration {
+    font-size: 0.95rem;
+    margin-bottom: 0.35rem;
+  }
+}
