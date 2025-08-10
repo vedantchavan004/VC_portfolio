@@ -53,6 +53,7 @@
   --institute-bg: #e0e0e0;
   --institute-text: #353535;
   --success-feedback-color: #28a745;
+  --chip-accent: var(--text-color-strong);
 
   /* Transitions */
   --transition-speed: 300ms;
