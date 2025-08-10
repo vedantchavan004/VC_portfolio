@@ -214,10 +214,9 @@ nav a:hover {
   box-shadow: 0 8px 20px var(--menu-links-shadow);
   border-radius: 0.5rem;
   z-index: 1000;
-  padding-bottom: 0.75rem; /* changed */
 }
 .menu-links.open {
-  max-height: 380px;
+  max-height: 360px;
 }
 .menu-links li {
   list-style: none;
