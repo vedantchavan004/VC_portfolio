@@ -41,11 +41,11 @@
   --experience-card-border: #323232;
   --experience-details-text: #353535;
   --experience-bullet-color: #353535;
-  --contact-form-bg: #f7f9fc;
-  --form-input-bg: #fff;
-  --form-input-text-color: #333;
-  --form-input-border: #ccc;
-  --form-input-focus-border: #353535;
+  --contact-form-bg: #1e1e1e;
+  --form-input-bg: #2a2a2a;
+  --form-input-text-color: #ccc;
+  --form-input-border: #555;
+  --form-input-focus-border: #2196f3;
   --footer-bg: #f1f1f1;
   --footer-link-color: #333;
   --proficiency-bg: #e0e0e0;
