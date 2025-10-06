@@ -293,24 +293,24 @@
 <div class="experience-column">
 <h3 class="sub-role" data-i18n="experience.role.01">AI Research Intern</h3>
 <ul class="experience-details">
-<li><span data-i18n="experience.bullet.01">Contributed to AHEAD (Adaptive Headlights for Enhanced Environment Perception) to close night‑time perception gaps for automated driving.</span></li>
-<li><span data-i18n="experience.bullet.02">Fine‑tuned YOLOv8 on stereo night data with illumination‑specific augmentations; mAP improved from ~60% → ~90%.</span></li>
-<li><span data-i18n="experience.bullet.03">Calibrated stereo rigs and built 2D→3D pipelines (homography, triangulation) to anchor detections in the vehicle frame.</span></li>
-<li><span data-i18n="experience.bullet.04">Exported detectors to ONNX and delivered real‑time inference on embedded ADAS hardware via ONNX Runtime.</span></li>
+<li><span data-i18n="experience.bullet.01">Worked on the AHEAD (Adaptive Headlights for Enhanced Environment Perception) project to improve night-time perception for automated driving.</span></li>
+<li><span data-i18n="experience.bullet.02">Fine-tuned YOLOv8 on stereo night data with illumination-aware augmentations, increasing detection accuracy from ~60 % to ~90 % mAP.</span></li>
+<li><span data-i18n="experience.bullet.03">Developed a stereo-vision pipeline combining classical vision (ORB, SIFT) with deep-learning-based tracking (DeepSORT) and object detection for 3D object localization.</span></li>
+<li><span data-i18n="experience.bullet.04">Calibrated stereo rigs, implemented 2D→3D projection (homography, triangulation), and deployed detectors on embedded ADAS hardware using ONNX Runtime.</span></li>
 <li><span data-i18n="experience.bullet.05">Supported validation &amp; benchmarking against internal ADAS safety protocols ahead of on‑road testing.</span></li>
 </ul>
-<p class="tech-stack" data-i18n="experience.tech.intern">Tech: PyTorch, OpenCV, ONNX Runtime, Stereo Calibration, Homography, Triangulation, Python</p>
+<p class="tech-stack" data-i18n="experience.tech.intern">Tech: YOLOv8, PyTorch, OpenCV, ONNX Runtime, DeepSORT, Stereo Calibration, Homography, Triangulation, Python</p>
 </div>
 <div class="experience-column">
 <h3 class="sub-role" data-i18n="experience.role.02">Master’s Thesis Researcher</h3>
 <ul class="experience-details">
-<li><span data-i18n="experience.bullet.06">Developed a lightweight stereo-CNN using autoencoder and cost volume fusion for night-time depth estimation.</span></li>
-<li><span data-i18n="experience.bullet.07">Achieved ~3% D1-all and ~95% 3D localization accuracy in 30 m range.</span></li>
-<li><span data-i18n="experience.bullet.08">Created over 9,000 synthetic stereo pairs using Unreal Engine 5 ; automated data generation pipeline reduced manual labeling by 90%.</span></li>
-<li><span data-i18n="experience.bullet.09">Fused object detection (YOLOv8) with disparity estimation for accurate 3D bounding boxes.</span></li>
-<li><span data-i18n="experience.bullet.10">Supported algorithm validation and benchmarking aligned with ADAS safety protocols.</span></li>
+<li><span data-i18n="experience.bullet.06">Developed a lightweight stereo CNN with autoencoder-based cost volume fusion for night-time depth estimation.</span></li>
+<li><span data-i18n="experience.bullet.07">Generated over 9,000 synthetic stereo pairs in Unreal Engine 5, automating the data pipeline and reducing manual labeling by ~90 %.</span></li>
+<li><span data-i18n="experience.bullet.08">Fine-tuned and evaluated the model on the KITTI stereo benchmark, achieving ~3 % D1-all error and ~95 % 3D localization accuracy at 30 m.</span></li>
+<li><span data-i18n="experience.bullet.09">Fused disparity maps with YOLOv8 detections and calibrated camera parameters for accurate 3D detection.</span></li>
+<li><span data-i18n="experience.bullet.10">Deployed the full perception pipeline with ONNX Runtime + Docker, achieving real-time inference below 70 ms latency.</span></li>
 </ul>
-<p class="tech-stack" data-i18n="experience.tech.thesis">Tech: PyTorch (stereo CNN + cost volume), Unreal Engine 5 (synthetic data), NumPy, Matplotlib, ONNX Runtime</p>
+<p class="tech-stack" data-i18n="experience.tech.thesis">Tech: YOLOv8, PyTorch (Stereo CNN, Cost Volume Fusion), Unreal Engine 5, OpenCV, NumPy, Docker, ONNX Runtime</p>
 </div>
 </div>
 </div>
@@ -348,7 +348,7 @@
 <div class="project-details hidden" id="project3-details">
 <ul>
 <li data-i18n="projects.p1.d1">Developed TensorFlow-based YOLO model for precise object detection &amp; orientation estimation.</li>
-<li data-i18n="projects.p1.d2">Trained the model using synthetic (Blender) &amp; real-world datasets, achieving 95% precision.</li>
+<li data-i18n="projects.p1.d2">Trained the model using synthetic (Blender) &amp; real-world datasets, achieving 98% precision.</li>
 <li data-i18n="projects.p1.d3">Optimized the model to enhance AI performance under industrial conditions, ensuring reliable automation.</li>
 </ul>
 </div>
