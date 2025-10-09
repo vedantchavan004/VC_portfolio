@@ -292,21 +292,25 @@
             <h3 class="sub-role" data-i18n="experience.role.01">AI Research Intern</h3>
             <ul class="experience-details">
               <li><span data-i18n="experience.bullet.01">Worked on the AHEAD (Adaptive Headlights for Enhanced Environment Perception) project to improve night-time perception for automated driving.</span></li>
-              <li><span data-i18n="experience.bullet.02">Fine-tuned YOLOv8 on stereo night data with illumination-aware augmentations, increasing detection accuracy from ~60 % to ~90 % mAP.</span></li>
-              <li><span data-i18n="experience.bullet.03">Developed a stereo-vision pipeline combining classical vision (ORB, SIFT) with deep-learning-based tracking (DeepSORT) and object detection for 3D object localization.</span></li>
-              <li><span data-i18n="experience.bullet.04">Calibrated stereo rigs, implemented 2D→3D projection (homography, triangulation), and deployed detectors on embedded ADAS hardware using ONNX Runtime.</span></li>
-              <li><span data-i18n="experience.bullet.05">Supported validation &amp; benchmarking against internal ADAS safety protocols ahead of on‑road testing.</span></li>
+              <li><span data-i18n="experience.bullet.02">Adapted and fine-tuned YOLOv8 for glare-robust headlight perception, achieving +30 % mAP improvement under adverse illumination.</span></li>
+              <li><span data-i18n="experience.bullet.03">Built a modular multi-task perception pipeline combining detection, segmentation, tracking, and depth estimation for holistic night-time scene understanding.</span></li>
+              <li><span data-i18n="experience.bullet.04">Experimented with classical and deep tracking methods—implemented ORB, SIFT for feature-based matching and integrated Deep SORT for multi-object tracking, improving temporal consistency and ID retention across frames.</span></li>
+              <li><span data-i18n="experience.bullet.05">Conducted robustness and uncertainty analysis under sensor noise, weather variation, and motion blur to evaluate perception stability and calibration confidence.</span></li>
+              <li><span data-i18n="experience.bullet.06">Developed multi-camera calibration and QA tools ensuring accurate intrinsic/extrinsic alignment and automated dataset consistency checks.</span></li>
+              <li><span data-i18n="experience.bullet.07">Collaborated cross-functionally with optics, software, and embedded teams to validate perception components in real-vehicle prototype tests.</span></li>
+            </ul>
             </ul>
             <p class="tech-stack" data-i18n="experience.tech.intern">Tech: YOLOv8, PyTorch, OpenCV, ONNX Runtime, DeepSORT, Stereo Calibration, Homography, Triangulation, Python</p>
           </div>
           <div class="experience-column">
             <h3 class="sub-role" data-i18n="experience.role.02">Master’s Thesis Researcher</h3>
             <ul class="experience-details">
-              <li><span data-i18n="experience.bullet.06">Developed a lightweight stereo CNN with autoencoder-based cost volume fusion for night-time depth estimation.</span></li>
-              <li><span data-i18n="experience.bullet.07">Generated over 9,000 synthetic stereo pairs in Unreal Engine 5, automating the data pipeline and reducing manual labeling by ~90 %.</span></li>
-              <li><span data-i18n="experience.bullet.08">Fine-tuned and evaluated the model on the KITTI stereo benchmark, achieving ~3 % D1-all error and ~95 % 3D localization accuracy at 30 m.</span></li>
-              <li><span data-i18n="experience.bullet.09">Fused disparity maps with YOLOv8 detections and calibrated camera parameters for accurate 3D detection.</span></li>
-              <li><span data-i18n="experience.bullet.10">Deployed the full perception pipeline with ONNX Runtime + Docker, achieving real-time inference below 70 ms latency.</span></li>
+              <li><span data-i18n="experience.bullet.08">Developed a lightweight stereo CNN for dense depth estimation and 3-D object localization under challenging illumination conditions, achieving ≈ 3 % D1-all error against KITTI + laser ground truth.</span></li>
+              <li><span data-i18n="experience.bullet.09">Generated a synthetic stereo dataset (~9,000 pairs) in Unreal Engine 5 using physically based lighting, vehicle geometry, and calibrated camera intrinsics to simulate low-light highway scenes.</span></li>
+              <li><span data-i18n="experience.bullet.10">Applied domain randomization (weather, glare, motion blur) and fine-tuned on limited real data, reducing domain gap by ≈ 18 % in disparity MAE.</span></li>
+              <li><span data-i18n="experience.bullet.11">Integrated a full perception pipeline covering training, stereo calibration, QA benchmarking, and uncertainty calibration, enabling confidence-aware 3-D localization in dynamic environments.</span></li>
+              <li><span data-i18n="experience.bullet.12">Collaborated with embedded & optics teams to export and validate the ONNX model on in-vehicle GPU hardware (< 70 ms latency) for adaptive-beam control proof-of-concept.</span></li>
+              <li><span data-i18n="experience.bullet.13">Documented findings and methodologies in detailed internal technical reports supporting ongoing R&D on uncertainty-aware perception within adaptive-lighting systems.</span></li>
             </ul>
             <p class="tech-stack" data-i18n="experience.tech.thesis">Tech: YOLOv8, PyTorch (Stereo CNN, Cost Volume Fusion), Unreal Engine 5, OpenCV, NumPy, Docker, ONNX Runtime</p>
           </div>
