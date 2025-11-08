@@ -1389,7 +1389,7 @@ footer {
 }
 footer .nav-links {
   justify-content: center;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 footer p {
   color: var(--footer-link-color);
