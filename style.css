@@ -278,7 +278,7 @@ nav a:hover {
 
 .menu-links.open {
   right: 0; /* Slide in from the right */
-  max-height: 450px; /* Adjust as needed */
+  max-height: 600px; /* Adjust as needed */
   padding: 1rem 0;
 }
 
