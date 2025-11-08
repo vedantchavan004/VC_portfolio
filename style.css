@@ -278,10 +278,13 @@ nav a:hover {
 
 .menu-links.open {
   right: 0; /* Slide in from the right */
+  max-height: 350px; /* Adjust as needed */
+  padding: 1rem 0;
 }
 
 .menu-links li {
   list-style: none;
+  padding: 0.5rem 0;
 }
 
 .menu-links a {
