@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Content Studio — Vedant Chavan</title>
+<link rel="stylesheet" href="css/organic.css">
+<style>
+  *{ box-sizing: border-box; }
+  body { margin: 0; background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); }
+  a { color: var(--color-accent-700); text-decoration: none; }
+  a:hover { color: var(--color-accent-800); }
+  :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  input, textarea, button { font-family: var(--font-body); }
+
+  [data-theme="dark"] {
+    --color-bg: #17140f; --color-surface: #221d17; --color-text: #f4ead9;
+    --color-divider: color-mix(in srgb, #f4ead9 16%, transparent);
+    --color-neutral-100: #2e2b25; --color-neutral-200: #474238; --color-neutral-300: #645c50;
+    --color-neutral-400: #82796a; --color-neutral-500: #a19786; --color-neutral-600: #c0b6a5;
+    --color-neutral-700: #dcd3c4; --color-neutral-800: #eee7db; --color-neutral-900: #f9f4ed;
+    --color-accent-100: #402310; --color-accent-200: #643312; --color-accent-300: #8c491a;
+    --color-accent-400: #b2622d; --color-accent-500: #d67f48; --color-accent-600: #f6a06b;
+    --color-accent-700: #ffc6a5; --color-accent-800: #ffe1d0; --color-accent-900: #fff2eb;
+    --color-accent-2-100: #272e1b; --color-accent-2-200: #3d472b; --color-accent-2-300: #56633f;
+    --color-accent-2-400: #728157; --color-accent-2-500: #8fa073; --color-accent-2-600: #aebf92;
+    --color-accent-2-700: #ccdbb2; --color-accent-2-800: #e1eecc; --color-accent-2-900: #f0fae1;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.5); --shadow-md: 0 3px 12px rgba(0,0,0,.55); --shadow-lg: 0 14px 36px rgba(0,0,0,.6);
+  }
+  [data-theme="dark"] .card { border-color: var(--color-divider); }
+
+  .shell { min-height: 100vh; display: flex; flex-direction: column; }
+  .top { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 14px clamp(14px, 3vw, 26px); border-bottom: 1px solid var(--color-divider); background: var(--color-neutral-100); position: sticky; top: 0; z-index: 5; }
+  .body { flex: 1; display: grid; grid-template-columns: 215px 290px minmax(0, 1fr); align-items: start; }
+  @media (max-width: 1000px) { .body { grid-template-columns: 1fr; } .rail, .listcol { border-right: none !important; border-bottom: 1px solid var(--color-divider); position: static !important; } }
+  .rail { padding: 20px 14px; border-right: 1px solid var(--color-divider); display: flex; flex-direction: column; gap: 4px; position: sticky; top: 68px; }
+  .railbtn { cursor: pointer; display: flex; align-items: center; gap: 8px; width: 100%; padding: 9px 12px; border: none; border-radius: var(--radius-md); font-size: 14px; font-weight: 600; text-align: left; background: transparent; color: var(--color-neutral-800); }
+  .railbtn:hover { background: var(--color-neutral-100); }
+  .railbtn[aria-current="true"] { background: var(--color-accent); color: #fff; }
+  .railbtn span:last-child { margin-left: auto; font-size: 12px; font-weight: 700; opacity: .75; }
+  .listcol { padding: 20px 16px; border-right: 1px solid var(--color-divider); display: flex; flex-direction: column; gap: 9px; }
+  .row { display: flex; align-items: center; gap: 6px; padding: 10px 12px; border-radius: var(--radius-md); border: 1px solid var(--color-divider); background: var(--color-neutral-100); }
+  .row[aria-current="true"] { background: var(--color-accent-200); border-color: var(--color-accent-300); }
+  .row button.pickbtn { all: unset; cursor: pointer; flex: 1; min-width: 0; }
+  .rowtitle { font-size: 14px; font-weight: 600; line-height: 1.35; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .rowsub { font-size: 12px; color: var(--color-neutral-600); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mini { all: unset; cursor: pointer; font-size: 11px; color: var(--color-neutral-600); padding: 0 4px; }
+  .mini:hover { color: var(--color-accent-700); }
+  .del { all: unset; cursor: pointer; font-size: 15px; color: var(--color-accent-700); padding: 0 4px; }
+  .editor { padding: 20px clamp(16px, 3vw, 30px) 70px; min-width: 0; display: flex; flex-direction: column; gap: 16px; max-width: 900px; }
+  .flabel { font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+  .fhint { font-size: 12px; color: var(--color-neutral-600); font-weight: 400; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 700px) { .pair { grid-template-columns: 1fr; } }
+  .tiny { font-size: 11px; font-weight: 700; margin-bottom: 3px; }
+  .head { font-family: var(--font-heading); font-weight: 400; font-size: 16px; margin: 10px 0 0; color: var(--color-accent-700); }
+  textarea.input { border-radius: var(--radius-md); resize: vertical; line-height: 1.5; }
+  .note { margin-top: 18px; padding: 14px; background: var(--color-accent-2-200); border-radius: var(--radius-md); font-size: 12.5px; line-height: 1.5; color: var(--color-accent-2-900); }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <div class="top">
+    <div style="font-family: var(--font-heading); font-size: 19px">Content Studio</div>
+    <div id="status" style="font-size: 13px; color: var(--color-neutral-600)"></div>
+    <div style="margin-left: auto; display: flex; flex-wrap: wrap; gap: 10px">
+      <a class="btn btn-ghost" href="index.html">Open site ↗</a>
+      <button class="btn btn-secondary" id="dl">Download content.js</button>
+      <button class="btn btn-primary" id="save">Save preview</button>
+    </div>
+  </div>
+
+  <div class="body">
+    <nav class="rail" id="rail"></nav>
+    <div class="listcol">
+      <div style="display: flex; align-items: baseline; gap: 8px">
+        <h2 id="collLabel" style="font-family: var(--font-heading); font-weight: 400; font-size: 17px; margin: 0"></h2>
+        <button class="btn btn-ghost" id="add" style="margin-left: auto; padding: 4px 12px; font-size: 13px">+ Add</button>
+      </div>
+      <div id="list" style="display: flex; flex-direction: column; gap: 7px"></div>
+      <p id="collHint" style="font-size: 13.5px; line-height: 1.55; color: var(--color-neutral-700); margin: 0"></p>
+      <div class="note">Every field has an English and a German column. Leave German empty and the site falls back to English — no broken keys.</div>
+    </div>
+    <div class="editor" id="editor"></div>
+  </div>
+</div>
+
+<script src="content.js"></script>
+<script>
+(function () {
+const content = window.VC.content;
+
+const HELPERS = `// Single source of truth for the portfolio. Plain classic script (no ES modules)
+// so the site also works when opened directly from disk with file://.
+// Every visible string is {en, de}. Missing German falls back to English,
+// so a half-translated site degrades gracefully instead of showing keys.
+
+const A = "./assets/";
+
+function t(v, lang) {
+  if (v == null) return "";
+  if (typeof v === "string") return v;
+  return v[lang] || v.en || "";
+}
+
+function tList(v, lang) {
+  if (!v) return [];
+  if (Array.isArray(v)) return v;
+  const out = v[lang];
+  return out && out.length ? out : (v.en || []);
+}
+
+const content = `;
+const FOOTER = `\nwindow.VC = { content: content, t: t, tList: tList };\n`;
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+let C = JSON.parse(JSON.stringify(content));
+try { const raw = localStorage.getItem('vc-content'); if (raw) C = JSON.parse(raw); } catch (e) {}
+
+let coll = 'profile', idx = 0, dirty = false, saved = false;
+
+const COLLS = [
+  { key: 'profile', label: 'Profile & hero', kind: 'single', hint: 'Your name, the headline, the proof numbers under it, and where your CV lives.' },
+  { key: 'projects', label: 'Projects', kind: 'list' },
+  { key: 'experience', label: 'Experience', kind: 'list' },
+  { key: 'skills', label: 'Skill groups', kind: 'list' },
+  { key: 'education', label: 'Education', kind: 'list' },
+  { key: 'certifications', label: 'Certifications', kind: 'list' },
+  { key: 'languages', label: 'Languages', kind: 'list' },
+  { key: 'text', label: 'Headings & labels', kind: 'single', hint: 'Section kickers and titles, the About text, and the contact form labels.' }
+];
+
+const listOf = (k) => ({
+  projects: C.projects, experience: C.experience, skills: C.skills,
+  education: C.about.education, certifications: C.about.certifications, languages: C.about.languages
+}[k] || []);
+
+const blank = (k) => ({
+  projects: { featured: false, image: '', title: { en: 'New project', de: '' }, outcome: { en: '', de: '' }, blurb: { en: '', de: '' }, tags: [], metrics: [], detail: { en: [], de: [] }, links: [] },
+  experience: { role: { en: 'New role', de: '' }, org: '', place: '', dates: { en: '', de: '' }, summary: { en: '', de: '' }, detail: { en: [], de: [] }, stack: '', images: [] },
+  skills: { group: { en: 'New group', de: '' }, items: [] },
+  education: { degree: { en: 'New degree', de: '' }, school: '', href: '' },
+  certifications: { name: { en: 'New certification', de: '' }, issuer: '', href: '' },
+  languages: { name: { en: 'New language', de: '' }, level: { en: '', de: '' } }
+}[k] || {});
+
+const txt = (v) => typeof v === 'string' ? v : (v && (v.en || v.de)) || '';
+
+function itemTitle(k, it) {
+  if (k === 'projects') return txt(it.title);
+  if (k === 'experience') return txt(it.role);
+  if (k === 'skills') return txt(it.group);
+  if (k === 'education') return txt(it.degree);
+  return txt(it.name);
+}
+function itemSub(k, it) {
+  if (k === 'projects') return (it.featured ? 'Featured · ' : '') + (it.tags || []).slice(0, 2).join(', ');
+  if (k === 'experience') return it.org + ' · ' + txt(it.dates);
+  if (k === 'skills') return (it.items || []).length + ' items';
+  if (k === 'education') return it.school || '';
+  if (k === 'certifications') return it.issuer || '';
+  if (k === 'languages') return txt(it.level);
+  return '';
+}
+
+function touch() { dirty = true; saved = false; paintStatus(); }
+function paintStatus() {
+  $('#status').textContent = dirty ? 'Unsaved changes' : (saved ? 'Saved — reload the site tab to see it' : 'content.js');
+  $('#save').textContent = dirty ? 'Save preview' : 'Saved';
+}
+
+/* ---- field builders. Each returns {html, wire(root)} ---- */
+let seq = 0;
+const bind = [];
+
+function norm(o, k) {
+  if (o[k] == null) o[k] = { en: '', de: '' };
+  else if (typeof o[k] === 'string') o[k] = { en: o[k], de: '' };
+  return o[k];
+}
+
+function plain(label, o, k, opts) {
+  const cfg = opts || {}, id = 'f' + (seq++);
+  bind.push(() => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', () => { o[k] = el.value; touch(); if (cfg.thumb) { const im = document.getElementById(id + 'i'); if (im) im.src = el.value; } });
+    if (cfg.remove) document.getElementById(id + 'x').addEventListener('click', () => { cfg.remove(); render(); });
+  });
+  return '<div><div class="flabel">' + esc(label) + '</div><div style="display: flex; gap: 10px; align-items: center">' +
+    '<input class="input" id="' + id + '" type="text" value="' + esc(o[k] == null ? '' : o[k]) + '" style="flex: 1; min-width: 0">' +
+    (cfg.thumb ? '<div style="width: 66px; height: 44px; border-radius: var(--radius-sm); overflow: hidden; background: var(--color-neutral-200); flex: none"><img id="' + id + 'i" src="' + esc(o[k] || '') + '" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>' : '') +
+    (cfg.remove ? '<button class="del" id="' + id + 'x" title="Remove">×</button>' : '') +
+    '</div></div>';
+}
+
+function pair(label, o, k, opts) {
+  const cfg = opts || {}, id = 'f' + (seq++), v = norm(o, k);
+  bind.push(() => {
+    const a = document.getElementById(id + 'e'), b = document.getElementById(id + 'd');
+    a.addEventListener('input', () => { v.en = a.value; touch(); });
+    b.addEventListener('input', () => { v.de = b.value; touch(); });
+    if (cfg.remove) document.getElementById(id + 'x').addEventListener('click', () => { cfg.remove(); render(); });
+  });
+  const inp = (sfx, val, ph) => cfg.rows
+    ? '<textarea class="input" id="' + id + sfx + '" rows="' + cfg.rows + '" placeholder="' + ph + '" style="width: 100%">' + esc(val) + '</textarea>'
+    : '<input class="input" id="' + id + sfx + '" type="text" value="' + esc(val) + '" placeholder="' + ph + '" style="width: 100%">';
+  return '<div><div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 5px">' +
+    '<div class="flabel" style="margin: 0">' + esc(label) + '</div>' +
+    (cfg.hint ? '<div class="fhint">' + esc(cfg.hint) + '</div>' : '') +
+    (cfg.remove ? '<button class="del" id="' + id + 'x" style="margin-left: auto; font-size: 12px; font-weight: 600">Remove</button>' : '') +
+    '</div><div class="pair">' +
+    '<div><div class="tiny" style="color: var(--color-neutral-600)">EN</div>' + inp('e', v.en || '', '') + '</div>' +
+    '<div><div class="tiny" style="color: var(--color-accent-2-700)">DE</div>' + inp('d', v.de || '', '—') + '</div>' +
+    '</div></div>';
+}
+
+function pairList(label, o, k, hint) {
+  const id = 'f' + (seq++), v = norm(o, k);
+  if (Array.isArray(o[k])) { v.en = o[k]; v.de = []; }
+  const join = (x) => Array.isArray(x) ? x.join('\n') : '';
+  bind.push(() => {
+    const a = document.getElementById(id + 'e'), b = document.getElementById(id + 'd');
+    a.addEventListener('input', () => { v.en = a.value.split('\n').filter(s => s.trim()); touch(); });
+    b.addEventListener('input', () => { v.de = b.value.split('\n').filter(s => s.trim()); touch(); });
+  });
+  return '<div><div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 5px">' +
+    '<div class="flabel" style="margin: 0">' + esc(label) + '</div><div class="fhint">' + esc(hint || 'one bullet per line') + '</div></div>' +
+    '<div class="pair">' +
+    '<div><div class="tiny" style="color: var(--color-neutral-600)">EN</div><textarea class="input" id="' + id + 'e" rows="5" style="width: 100%">' + esc(join(v.en)) + '</textarea></div>' +
+    '<div><div class="tiny" style="color: var(--color-accent-2-700)">DE</div><textarea class="input" id="' + id + 'd" rows="5" placeholder="—" style="width: 100%">' + esc(join(v.de)) + '</textarea></div>' +
+    '</div></div>';
+}
+
+function tags(label, o, k) {
+  const id = 'f' + (seq++);
+  bind.push(() => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', () => { o[k] = el.value.split(',').map(s => s.trim()).filter(Boolean); touch(); });
+  });
+  return '<div><div class="flabel">' + esc(label) + ' <span class="fhint">comma separated</span></div>' +
+    '<input class="input" id="' + id + '" type="text" value="' + esc((o[k] || []).join(', ')) + '" style="width: 100%"></div>';
+}
+
+function bool(label, o, k) {
+  const id = 'f' + (seq++);
+  bind.push(() => {
+    const el = document.getElementById(id);
+    el.addEventListener('change', () => { o[k] = el.checked; touch(); paintList(); });
+  });
+  return '<label style="display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; cursor: pointer">' +
+    '<input type="checkbox" id="' + id + '"' + (o[k] ? ' checked' : '') + ' style="width: 18px; height: 18px; accent-color: var(--color-accent)"><span>' + esc(label) + '</span></label>';
+}
+
+function head(label) { return '<h3 class="head">' + esc(label) + '</h3>'; }
+
+function action(label, run) {
+  const id = 'f' + (seq++);
+  bind.push(() => document.getElementById(id).addEventListener('click', () => { run(); render(); }));
+  return '<button class="btn btn-ghost" id="' + id + '" style="padding: 5px 14px; font-size: 13px; align-self: flex-start">' + esc(label) + '</button>';
+}
+
+/* ---- editor schema ---- */
+function fieldsFor(k, it) {
+  const F = [];
+  if (k === 'profile') {
+    const p = C.profile;
+    F.push(plain('Name', p, 'name'));
+    F.push(pair('Headline — the first thing anyone reads', p, 'headline', { rows: 2 }));
+    F.push(pair('Positioning paragraph', p, 'positioning', { rows: 5 }));
+    F.push(pair('Role line', p, 'role'));
+    F.push(pair('Location line', p, 'location'));
+    F.push(pair('Availability badge', p, 'available'));
+    F.push(plain('Photo path', p, 'photo', { thumb: true }));
+    F.push(plain('Email', p, 'email'));
+    F.push(plain('LinkedIn URL', p, 'linkedin'));
+    F.push(plain('GitHub URL', p, 'github'));
+    F.push(head('Proof numbers'));
+    (p.proof || []).forEach((m, i) => {
+      F.push(plain('Number ' + (i + 1), m, 'value', { remove: () => { p.proof.splice(i, 1); touch(); } }));
+      F.push(pair('Caption ' + (i + 1), m, 'label'));
+    });
+    F.push(action('+ Add a number', () => { (p.proof = p.proof || []).push({ value: '', label: { en: '', de: '' } }); touch(); }));
+    F.push(head('CV downloads'));
+    (p.cv || []).forEach((c, i) => {
+      F.push(pair('Button ' + (i + 1) + ' label', c, 'label', { remove: () => { p.cv.splice(i, 1); touch(); } }));
+      F.push(plain('Button ' + (i + 1) + ' file path', c, 'href'));
+    });
+    F.push(action('+ Add a CV button', () => { (p.cv = p.cv || []).push({ label: { en: '', de: '' }, href: '' }); touch(); }));
+    return F;
+  }
+  if (k === 'text') {
+    F.push(head('Section headings'));
+    Object.keys(C.sections).forEach(s => {
+      F.push(pair(s + ' — kicker', C.sections[s], 'kicker'));
+      F.push(pair(s + ' — title', C.sections[s], 'title'));
+    });
+    F.push(head('About'));
+    F.push(pair('About text', C.about, 'body', { rows: 10, hint: 'blank line between paragraphs' }));
+    F.push(head('Contact'));
+    F.push(pair('Contact blurb', C.contact, 'blurb', { rows: 3 }));
+    F.push(pair('Name label', C.contact.fields, 'name'));
+    F.push(pair('Email label', C.contact.fields, 'email'));
+    F.push(pair('Message label', C.contact.fields, 'message'));
+    F.push(pair('Send button', C.contact, 'send'));
+    return F;
+  }
+  if (!it) return F;
+  if (k === 'projects') {
+    F.push(bool('Show in the featured projects at the top', it, 'featured'));
+    F.push(pair('Title', it, 'title'));
+    F.push(pair('Outcome — the result, with a number in it', it, 'outcome', { rows: 2 }));
+    F.push(pair('Blurb — one sentence of context', it, 'blurb', { rows: 2 }));
+    F.push(plain('Image path', it, 'image', { thumb: true }));
+    F.push(tags('Tags', it, 'tags'));
+    F.push(pairList('Detail bullets', it, 'detail'));
+    F.push(head('Links'));
+    (it.links || []).forEach((l, i) => {
+      F.push(pair('Link ' + (i + 1) + ' label', l, 'label', { remove: () => { it.links.splice(i, 1); touch(); } }));
+      F.push(plain('Link ' + (i + 1) + ' URL', l, 'href'));
+    });
+    F.push(action('+ Add a link', () => { (it.links = it.links || []).push({ label: { en: 'GitHub', de: 'GitHub' }, href: '' }); touch(); }));
+    return F;
+  }
+  if (k === 'experience') {
+    F.push(pair('Role', it, 'role'));
+    F.push(plain('Organisation', it, 'org'));
+    F.push(plain('Place', it, 'place'));
+    F.push(pair('Dates', it, 'dates'));
+    F.push(pair('Summary', it, 'summary', { rows: 3 }));
+    F.push(pairList('Detail bullets', it, 'detail'));
+    F.push(plain('Tech stack line', it, 'stack'));
+    F.push(head('Images'));
+    (it.images || []).forEach((im, i) => {
+      F.push(plain('Image ' + (i + 1) + ' path', im, 'src', { thumb: true, remove: () => { it.images.splice(i, 1); touch(); } }));
+      F.push(plain('Image ' + (i + 1) + ' alt text', im, 'alt'));
+    });
+    F.push(action('+ Add an image', () => { (it.images = it.images || []).push({ src: '', alt: '' }); touch(); }));
+    return F;
+  }
+  if (k === 'skills') { F.push(pair('Group name', it, 'group')); F.push(tags('Skills', it, 'items')); return F; }
+  if (k === 'education') { F.push(pair('Degree', it, 'degree')); F.push(plain('School', it, 'school')); F.push(plain('Certificate file path', it, 'href')); return F; }
+  if (k === 'certifications') { F.push(pair('Name', it, 'name')); F.push(plain('Issuer', it, 'issuer')); F.push(plain('Link or file path', it, 'href')); return F; }
+  if (k === 'languages') { F.push(pair('Language', it, 'name')); F.push(pair('Level', it, 'level')); return F; }
+  return F;
+}
+
+/* ---- painting ---- */
+function paintRail() {
+  $('#rail').innerHTML = COLLS.map(c =>
+    '<button class="railbtn" data-coll="' + c.key + '" aria-current="' + (c.key === coll) + '">' +
+    '<span>' + esc(c.label) + '</span><span>' + (c.kind === 'list' ? listOf(c.key).length : '') + '</span></button>').join('');
+  $('#rail').querySelectorAll('[data-coll]').forEach(b =>
+    b.addEventListener('click', () => { coll = b.dataset.coll; idx = 0; render(); }));
+}
+
+function paintList() {
+  const meta = COLLS.find(c => c.key === coll);
+  const isList = meta.kind === 'list';
+  $('#collLabel').textContent = meta.label;
+  $('#collHint').textContent = isList ? '' : (meta.hint || '');
+  $('#add').style.display = isList ? '' : 'none';
+  if (!isList) { $('#list').innerHTML = ''; return; }
+  const arr = listOf(coll);
+  $('#list').innerHTML = arr.map((x, i) =>
+    '<div class="row" aria-current="' + (i === idx) + '">' +
+      '<button class="pickbtn" data-pick="' + i + '"><div class="rowtitle">' + esc(itemTitle(coll, x) || 'Untitled') + '</div>' +
+      '<div class="rowsub">' + esc(itemSub(coll, x)) + '</div></button>' +
+      '<div style="display: flex; flex-direction: column; gap: 2px">' +
+        '<button class="mini" data-up="' + i + '" title="Move up">▲</button>' +
+        '<button class="mini" data-down="' + i + '" title="Move down">▼</button>' +
+      '</div><button class="del" data-del="' + i + '" title="Delete">×</button></div>').join('');
+  const L = $('#list');
+  L.querySelectorAll('[data-pick]').forEach(b => b.addEventListener('click', () => { idx = +b.dataset.pick; render(); }));
+  L.querySelectorAll('[data-up]').forEach(b => b.addEventListener('click', () => {
+    const i = +b.dataset.up; if (i > 0) { const t2 = arr[i - 1]; arr[i - 1] = arr[i]; arr[i] = t2; idx = i - 1; touch(); render(); } }));
+  L.querySelectorAll('[data-down]').forEach(b => b.addEventListener('click', () => {
+    const i = +b.dataset.down; if (i < arr.length - 1) { const t2 = arr[i + 1]; arr[i + 1] = arr[i]; arr[i] = t2; idx = i + 1; touch(); render(); } }));
+  L.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', () => {
+    const i = +b.dataset.del;
+    if (!confirm('Delete "' + (itemTitle(coll, arr[i]) || 'this item') + '"?')) return;
+    arr.splice(i, 1); idx = Math.max(0, i - 1); touch(); render(); }));
+}
+
+function render() {
+  paintRail();
+  paintList();
+  const meta = COLLS.find(c => c.key === coll);
+  const arr = meta.kind === 'list' ? listOf(coll) : [];
+  if (meta.kind === 'list') idx = Math.min(idx, Math.max(0, arr.length - 1));
+  const it = meta.kind === 'list' ? arr[idx] : null;
+  bind.length = 0; seq = 0;
+  $('#editor').innerHTML = fieldsFor(coll, it).join('');
+  bind.forEach(fn => fn());
+  paintStatus();
+}
+
+$('#add').addEventListener('click', () => {
+  const arr = listOf(coll);
+  arr.push(blank(coll));
+  idx = arr.length - 1; touch(); render();
+});
+
+$('#save').addEventListener('click', () => {
+  try { localStorage.setItem('vc-content', JSON.stringify(C)); dirty = false; saved = true; paintStatus(); }
+  catch (e) { alert('Could not save a local preview: ' + e.message); }
+});
+
+$('#dl').addEventListener('click', () => {
+  const text = HELPERS + JSON.stringify(C, null, 2) + ';\n' + FOOTER;
+  const url = URL.createObjectURL(new Blob([text], { type: 'text/javascript' }));
+  const a = document.createElement('a');
+  a.href = url; a.download = 'content.js';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+});
+
+window.addEventListener('beforeunload', (e) => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+
+try { document.documentElement.setAttribute('data-theme', localStorage.getItem('vc-theme') || 'dark'); } catch (e) {}
+render();
+})();
+</script>
+</body>
+</html>
