@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vedant Chavan — 3D perception & computer vision</title>
+<meta name="description" content="Vedant Chavan builds 3D perception systems: video-to-3D reconstruction at PALPRINT, stereo depth and detection for adaptive headlights at FORVIA HELLA.">
+<link rel="stylesheet" href="css/organic.css">
+<style>
+  *{ box-sizing: border-box; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body { margin: 0; background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); }
+  a { color: var(--color-accent-700); text-decoration: none; }
+  a:hover { color: var(--color-accent-800); }
+  :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  p { text-wrap: pretty; }
+  img { max-width: 100%; }
+
+  /* Dark theme (default) — cool near-black base, off-white text, one signal-lime
+     accent. Neutral + accent ramps reverse, so every 100→900 reference flips with it. */
+  [data-theme="dark"] {
+    --color-bg: #0b0c0e;
+    --color-surface: #131519;
+    --color-text: #e7e9ec;
+    --color-accent: #c9f24d;      /* bright signal lime — dark text sits on it */
+    --color-accent-2: #7d827d;
+    --color-divider: color-mix(in srgb, #e7e9ec 11%, transparent);
+
+    --color-neutral-100: #17191d;
+    --color-neutral-200: #1f2227;
+    --color-neutral-300: #2a2e34;
+    --color-neutral-400: #3a3f47;
+    --color-neutral-500: #626871;
+    --color-neutral-600: #868c95;
+    --color-neutral-700: #a7adb5;
+    --color-neutral-800: #cdd2d8;
+    --color-neutral-900: #e7e9ec;
+
+    --color-accent-100: #1e2607;
+    --color-accent-200: #2c3a0a;
+    --color-accent-300: #43550f;
+    --color-accent-400: #6e8a16;
+    --color-accent-500: #9bc22b;
+    --color-accent-600: #bce63c;
+    --color-accent-700: #cbf24d;
+    --color-accent-800: #d8f86e;
+    --color-accent-900: #e6fb97;
+
+    --color-accent-2-100: #17191d;
+    --color-accent-2-200: #1c1f24;
+    --color-accent-2-300: #2a2e34;
+    --color-accent-2-400: #3a3f47;
+    --color-accent-2-500: #626871;
+    --color-accent-2-600: #868c95;
+    --color-accent-2-700: #a7adb5;
+    --color-accent-2-800: #cdd2d8;
+    --color-accent-2-900: #e7e9ec;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
+    --shadow-md: 0 6px 22px rgba(0, 0, 0, .45);
+    --shadow-lg: 0 20px 48px rgba(0, 0, 0, .55);
+  }
+  [data-theme="dark"] .washed { filter: saturate(1.02) contrast(1.03); }
+
+  .navlink { font-family: var(--font-mono); font-size: 13px; font-weight: 400; letter-spacing: .02em; color: var(--color-neutral-600); transition: color .15s; }
+  .navlink:hover { color: var(--color-accent-700); }
+  #themeBtn { cursor: pointer; width: 38px; height: 38px; display: grid; place-items: center; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: transparent; color: var(--color-neutral-700); transition: border-color .15s, color .15s; }
+  #themeBtn:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .sec { max-width: 1180px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 32px) 90px; }
+  .kicker { display: inline-flex; align-items: center; gap: 11px; font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--color-accent-700); margin: 0 0 14px; }
+  .kicker::before { content: ''; width: 22px; height: 2px; background: var(--color-accent); flex: none; }
+  .proofv { font-family: var(--font-mono); font-weight: 600; font-size: 33px; color: var(--color-text); line-height: 1.05; letter-spacing: -.02em; }
+  .proofl { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--color-neutral-600); margin-top: 8px; line-height: 1.45; }
+  .h2 { font-family: var(--font-heading); font-weight: 600; letter-spacing: -.025em; font-size: clamp(28px, 4.4vw, 42px); margin: 0 0 40px; }
+  .shot { border-radius: var(--radius-md); overflow: hidden; background: var(--color-neutral-200); border: 1px solid var(--color-divider); }
+  .tag { white-space: nowrap; }
+  .btn { white-space: nowrap; }
+
+  /* featured project cards */
+  .fcard { display: flex; flex-direction: row; flex-wrap: wrap; gap: clamp(22px, 3vw, 40px); align-items: center; padding: clamp(18px, 2.4vw, 26px); border-radius: var(--radius-lg); }
+  .fmedia { flex: 1 1 300px; min-width: 0; }
+  .fbody { flex: 1.28 1 330px; min-width: 0; }
+  .fidx { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .fidxn { font-family: var(--font-mono); font-weight: 600; font-size: 15px; letter-spacing: .04em; color: var(--color-accent-700); }
+  .fidx::after { content: ''; flex: 1; height: 1px; background: var(--color-divider); }
+  .ftitle { font-family: var(--font-heading); font-weight: 600; font-size: clamp(21px, 2.3vw, 28px); line-height: 1.15; margin: 0 0 12px; letter-spacing: -.025em; }
+  .fout { font-family: var(--font-body); font-size: 16px; line-height: 1.5; color: var(--color-neutral-900); font-weight: 500; margin: 0 0 14px; }
+  /* spec readout — pulls the headline metrics out for scanning */
+  .fstats { display: flex; flex-wrap: wrap; gap: 26px; margin: 0 0 16px; padding-top: 14px; border-top: 1px solid var(--color-divider); }
+  .fstat { display: flex; flex-direction: column; gap: 4px; }
+  .fstatv { font-family: var(--font-mono); font-weight: 600; font-size: 23px; line-height: 1; letter-spacing: -.02em; color: var(--color-accent-700); }
+  .fstatl { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--color-neutral-600); }
+  .fblurb { font-size: 15.5px; line-height: 1.6; color: var(--color-neutral-700); margin: 0 0 17px; }
+  .ftags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 19px; }
+  .factions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .fpanel { flex: 1 1 100%; min-width: 0; }
+  /* alternating rhythm — even featured cards put media on the right */
+  #featured .fcard:nth-child(even) .fbody  { order: 1; }
+  #featured .fcard:nth-child(even) .fmedia { order: 2; }
+  #featured .fcard:nth-child(even) .fpanel { order: 3; }
+
+  /* grid project cards — index badge + hover overlay */
+  .pshot { position: relative; }
+  .pidx { position: absolute; top: 10px; left: 10px; z-index: 2; font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: .04em; padding: 3px 8px; border-radius: var(--radius-sm); background: color-mix(in srgb, var(--color-bg) 68%, transparent); color: var(--color-neutral-800); border: 1px solid var(--color-divider); backdrop-filter: blur(6px); }
+  .poverlay { position: absolute; inset: 0; z-index: 3; display: flex; align-items: flex-end; padding: 12px; text-decoration: none; opacity: 0; pointer-events: none; transition: opacity .25s ease; background: linear-gradient(to top, color-mix(in srgb, var(--color-bg) 84%, transparent), transparent 58%); }
+  .pcard:hover .poverlay, .pcard:focus-within .poverlay { opacity: 1; pointer-events: auto; }
+  .poverlay span { font-family: var(--font-mono); font-size: 12px; font-weight: 500; padding: 7px 13px; border-radius: var(--radius-sm); background: var(--color-accent); color: var(--color-bg); transform: translateY(6px); transition: transform .25s ease; }
+  .pcard:hover .poverlay span, .pcard:focus-within .poverlay span { transform: none; }
+  .ptitle { font-family: var(--font-heading); font-weight: 600; font-size: 19px; line-height: 1.25; letter-spacing: -.02em; margin: 0 0 8px; transition: color .2s ease; }
+  .pcard:hover .ptitle { color: var(--color-accent-700); }
+  .pout { font-size: 14.5px; line-height: 1.55; color: var(--color-neutral-700); margin: 0; }
+  .pcard .ptags { display: flex; flex-wrap: wrap; gap: 7px; }
+
+  /* skills — editorial rows instead of a wall of coloured pills */
+  .sklist { display: flex; flex-direction: column; }
+  .skrow { display: grid; grid-template-columns: minmax(150px, 220px) 1fr; gap: clamp(16px, 3vw, 44px); padding: 22px 0; border-top: 1px solid var(--color-divider); align-items: start; }
+  .skrow:last-child { border-bottom: 1px solid var(--color-divider); }
+  @media (max-width: 720px) { .skrow { grid-template-columns: 1fr; gap: 12px; padding: 18px 0; } }
+  .skname { font-family: var(--font-heading); font-weight: 600; font-size: 18px; letter-spacing: -.02em; line-height: 1.25; color: var(--color-text); }
+  .skcount { display: block; font-family: var(--font-mono); font-size: 11px; font-weight: 400; color: var(--color-neutral-500); margin-top: 5px; }
+  .skchips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .skchip { font-family: var(--font-mono); font-size: 12.5px; font-weight: 400; line-height: 1; padding: 8px 12px; border-radius: var(--radius-sm); background: transparent; color: var(--color-neutral-800); border: 1px solid var(--color-divider); white-space: nowrap; transition: color .15s, border-color .15s; }
+  .skchip:hover { color: var(--color-accent-700); border-color: var(--color-accent); }
+
+  /* ---------- phone ---------- */
+  @media (max-width: 700px) {
+    .hdrwrap { padding: 9px 15px !important; gap: 6px 10px !important; }
+    .hdrbrand { font-size: 18px !important; flex: none; }
+    .hdrtools { margin-left: auto; flex: none; gap: 7px !important; }
+    #btnEn, #btnDe { padding: 6px 12px !important; font-size: 13px !important; }
+    #themeBtn { width: 33px !important; height: 33px !important; }
+    #nav { order: 3; width: 100%; margin-left: 0 !important; flex-wrap: nowrap !important; overflow-x: auto; gap: 18px !important; padding: 2px 0 1px; scrollbar-width: none; -ms-overflow-style: none; }
+    #nav::-webkit-scrollbar { display: none; }
+    #nav a { flex: none; }
+
+    .hero { padding-top: 26px !important; gap: 22px !important; }
+    .hero { flex-direction: column; align-items: center; text-align: center; }
+    .herotext { width: 100%; flex: none !important; display: flex; flex-direction: column; align-items: center; }
+    .heroPhoto { order: -1; width: 100%; max-width: 170px !important; flex: none !important; align-self: center; }
+    .herobadge { margin-bottom: 18px !important; font-size: 13px !important; }
+    #headline { max-width: 18ch; }
+    #positioning, #roleline { margin-left: auto; margin-right: auto; }
+    #roleline { margin-bottom: 22px !important; }
+    #heroActions { justify-content: center; }
+    .heroPhoto + * { min-width: 0; }
+    #headline { font-size: 31px !important; margin-bottom: 16px !important; }
+    #positioning { font-size: 16.5px !important; }
+    #heroActions { gap: 10px !important; }
+
+    #timeline { padding-left: 20px !important; margin-left: 3px !important; }
+    #timeline > div > span:first-child { left: -28px !important; width: 12px !important; height: 12px !important; top: 24px !important; }
+
+    .dp { padding: 16px 17px; }
+    .dl li { font-size: 14.5px; }
+    .fcard { gap: 18px !important; }
+    .exbody { gap: 18px; padding-top: 18px; }
+    .sec { padding-bottom: 62px !important; }
+    .h2 { margin-bottom: 26px !important; }
+    .ssfoot { flex-wrap: wrap; gap: 6px 10px; }
+    .sscap { font-size: 12px; }
+    .certrow { flex-direction: column; gap: 2px !important; }
+    .certrow span:last-child { white-space: normal !important; }
+    .exdate { margin-left: 0 !important; width: 100%; order: -1; color: var(--color-neutral-600) !important; }
+    #timeline .card { padding: 20px 18px !important; }
+  }
+  @media (min-width: 481px) and (max-width: 700px) {
+    .heroPhoto { max-width: 210px !important; }
+    #headline { font-size: 36px !important; }
+  }
+  @media (max-width: 420px) {
+    .heroPhoto { max-width: 145px !important; }
+    #headline { font-size: 29px !important; }
+    .skchip { font-size: 13.5px; padding: 7px 12px; }
+  }
+
+  /* expanded detail panel */
+  .dp { padding: 20px 22px; background: var(--color-bg); border: 1px solid var(--color-divider); border-radius: var(--radius-md); animation: dpin .26s ease both; }
+  .dp.dpc { padding: 15px 16px; }
+  @keyframes dpin { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: none; } }
+  .dmet { display: flex; flex-wrap: wrap; gap: 26px; padding-bottom: 15px; margin-bottom: 16px; border-bottom: 1px solid var(--color-divider); }
+  .dmetv { font-family: var(--font-mono); font-weight: 600; font-size: 25px; line-height: 1.05; letter-spacing: -.02em; color: var(--color-accent-700); }
+  .dmetl { font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--color-neutral-600); margin-top: 5px; }
+  .dl { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 11px; }
+  .dl li { display: grid; grid-template-columns: 8px 1fr; gap: 12px; align-items: start; font-size: 15px; line-height: 1.58; color: var(--color-neutral-800); }
+  .dpc .dl li { font-size: 14px; line-height: 1.52; gap: 10px; }
+  .dl li::before { content: ''; width: 6px; height: 6px; margin-top: 9px; border-radius: 1px; background: var(--color-accent); }
+  .dpc .dl li::before { margin-top: 8px; }
+  .dstack { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 18px; padding-top: 15px; border-top: 1px solid var(--color-divider); }
+  .dstackl { font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--color-neutral-500); margin-right: 2px; }
+  .exbody { margin-top: 20px; padding-top: 22px; border-top: 1px solid var(--color-divider); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 24px; align-items: start; }
+  .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .ss { position: relative; overflow: hidden; border-radius: var(--radius-md); background: var(--color-neutral-200); }
+  .ss img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity .4s ease; }
+  .ssbtn { position: absolute; top: 50%; transform: translateY(-50%); width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer; border: 1px solid var(--color-divider); border-radius: var(--radius-sm); background: color-mix(in srgb, var(--color-bg) 72%, transparent); color: var(--color-text); backdrop-filter: blur(6px); font-size: 14px; line-height: 1; opacity: 0; transition: opacity .2s, background .15s, color .15s; }
+  .ss:hover .ssbtn, .ss:focus-within .ssbtn { opacity: 1; }
+  @media (hover: none) { .ssbtn { opacity: 1; } }
+  .ssbtn:hover { background: var(--color-accent); color: var(--color-bg); border-color: var(--color-accent); }
+  .ssprev { left: 10px; } .ssnext { right: 10px; }
+  .sscount { position: absolute; top: 10px; right: 10px; padding: 3px 8px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 11px; font-weight: 500; background: color-mix(in srgb, var(--color-bg) 72%, transparent); color: var(--color-neutral-800); backdrop-filter: blur(6px); border: 1px solid var(--color-divider); }
+  .ssfoot { display: flex; align-items: center; gap: 12px; margin-top: 9px; }
+  .ssdots { display: flex; gap: 6px; flex: none; }
+  .ssdot { width: 7px; height: 7px; padding: 0; border: none; border-radius: 1px; cursor: pointer; background: var(--color-neutral-400); transition: background .15s, width .15s; }
+  .ssdot[aria-current="true"] { background: var(--color-accent); width: 18px; }
+  .sscap { font-family: var(--font-mono); font-size: 11.5px; line-height: 1.45; color: var(--color-neutral-600); min-width: 0; }
+
+  /* ── Instrument overrides ─────────────────────────────────────────────── */
+  /* Force the grotesque semibold on headings whose inline styles still ask for 400. */
+  #headline, .h2, .ftitle, .card-title, .dialog-title, .skname,
+  #timeline h3, #about .side-h, #contact h2 { font-weight: 600 !important; }
+  #headline { letter-spacing: -.03em !important; }
+
+  /* Brand + nav */
+  .hdrbrand { font-weight: 700 !important; letter-spacing: -.02em !important; }
+
+  /* Faint blueprint grid behind the hero only — reads "instrument", stays subtle. */
+  .hero { position: relative; }
+  .hero::before {
+    content: ''; position: absolute; inset: -40px 0 0; z-index: -1; pointer-events: none;
+    background-image:
+      linear-gradient(var(--color-divider) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-divider) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(120% 90% at 70% 0%, #000 0%, transparent 70%);
+    mask-image: radial-gradient(120% 90% at 70% 0%, #000 0%, transparent 70%);
+    opacity: .5;
+  }
+
+  /* Availability badge → bordered mono chip */
+  .herobadge {
+    background: transparent !important; border: 1px solid var(--color-divider);
+    color: var(--color-neutral-700) !important; border-radius: var(--radius-sm) !important;
+  }
+  #available { font-family: var(--font-mono); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; }
+
+  /* Headline — one keyword in the signal colour */
+  #headline .hl { color: var(--color-accent-700); }
+
+  /* Focus / specialisation chips */
+  #focus .fchip {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: .02em;
+    color: var(--color-neutral-700); padding: 5px 11px; border-radius: var(--radius-sm);
+    border: 1px solid var(--color-divider); background: transparent;
+    transition: color .15s, border-color .15s;
+  }
+  #focus .fchip:hover { color: var(--color-accent-700); border-color: var(--color-accent); }
+
+  /* Positioning + role lines */
+  #positioning { color: var(--color-neutral-800) !important; }
+  #roleline { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 13px !important; letter-spacing: .04em; text-transform: uppercase; color: var(--color-neutral-500) !important; }
+  #roleline::before { content: ''; width: 7px; height: 7px; border-radius: 999px; border: 2px solid var(--color-accent); flex: none; }
+
+  /* Hero photo → clean circular portrait. The disc gradient is the photo's OWN
+     background (shows through the cut-out's transparent areas), and the circle keeps
+     a crisp edge all the way round — the figure is clipped, never spilling or smudging. */
+  .heroPhoto { max-width: 330px !important; }
+  .heroPhoto > div:first-child { display: none !important; }
+  /* The portrait is baked onto a fixed dark studio backdrop (portrait-framed.jpg),
+     so it's fully opaque — colours never shift with the theme. This just frames it. */
+  #photo {
+    background: #16181c;
+    border: 1px solid var(--color-divider);
+    box-shadow: 0 26px 58px -20px rgba(0, 0, 0, .45);
+  }
+  #photo img { object-position: center 18%; }
+  .anim #photo { animation: aDisc 4s ease-in-out infinite; }
+  @keyframes aDisc {
+    0%, 100% { box-shadow: 0 26px 58px -20px rgba(0,0,0,.45), 0 0 0 0 color-mix(in srgb, var(--color-accent) 26%, transparent); }
+    50% { box-shadow: 0 26px 58px -20px rgba(0,0,0,.45), 0 0 28px 1px color-mix(in srgb, var(--color-accent) 15%, transparent); }
+  }
+  #photo::after { display: none !important; }
+  /* HUD corner brackets frame the whole viewfinder */
+  .heroPhoto::before, .heroPhoto::after {
+    content: ''; position: absolute; width: 22px; height: 22px; z-index: 3; pointer-events: none;
+    border: 2px solid var(--color-accent);
+  }
+  .heroPhoto::before { top: -4px; left: -4px; border-right: 0; border-bottom: 0; }
+  .heroPhoto::after { bottom: -4px; right: -4px; border-left: 0; border-top: 0; }
+
+  /* Stat band → gridded instrument panel with hairline cells */
+  #proof {
+    background: var(--color-surface) !important; border: 1px solid var(--color-divider);
+    border-radius: var(--radius-md) !important; gap: 0 !important;
+    padding: 0 !important; overflow: hidden;
+  }
+  #proof > div { padding: clamp(20px, 3vw, 26px) clamp(18px, 2.6vw, 28px); border-left: 1px solid var(--color-divider); }
+  #proof > div:first-child { border-left: 0; }
+  @media (max-width: 640px) { #proof > div:nth-child(odd) { border-left: 0; } #proof > div { border-top: 1px solid var(--color-divider); } #proof > div:nth-child(-n+2) { border-top: 0; } }
+
+  /* Timeline: thinner rail, squared lime node */
+  #timeline > div > span:first-child { border-radius: 2px !important; width: 12px !important; height: 12px !important; background: var(--color-accent) !important; left: -41px !important; top: 28px !important; }
+
+  /* Contact CTA → bordered panel rather than a tinted block */
+  #contact > div { border: 1px solid var(--color-divider); background: var(--color-surface) !important; }
+  #contact [data-k="contact-kicker"] { font-family: var(--font-mono) !important; letter-spacing: .14em !important; color: var(--color-accent-700) !important; }
+  #contact [data-k="contact-title"] { font-weight: 600 !important; letter-spacing: -.025em; }
+  #contactBlurb { color: var(--color-neutral-700) !important; }
+  #contactForm span[data-k] { font-family: var(--font-mono); font-size: 11px !important; letter-spacing: .06em; text-transform: uppercase; color: var(--color-neutral-600) !important; }
+
+  /* Footer + section side-labels in mono */
+  footer { font-family: var(--font-mono); font-size: 12.5px !important; }
+  #about .side-h { font-family: var(--font-mono) !important; font-size: 12px !important; letter-spacing: .1em; text-transform: uppercase; color: var(--color-neutral-600) !important; }
+
+  /* EN/DE toggle wrapper → boxy, and the live-dot goes signal-lime */
+  .hdrtools > div { background: transparent !important; border-radius: var(--radius-sm) !important; padding: 2px !important; }
+  #btnEn, #btnDe { border-radius: 4px !important; }
+  .herobadge > span:first-child { background: var(--color-accent) !important; box-shadow: 0 0 8px color-mix(in srgb, var(--color-accent) 60%, transparent); }
+
+  /* ══ Motion layer ═══════════════════════════════════════════════════════
+     Reveals are anchored on persistent elements (sections + mount containers),
+     never on re-rendered cards, so theme/language/filter changes don't replay. */
+
+  /* Hero entrance — staggered up-fade, photo scales in */
+  .anim .hero .herobadge   { animation: aUp .7s .05s both cubic-bezier(.2,.75,.25,1); }
+  .anim .hero #headline    { animation: aUp .8s .16s both cubic-bezier(.2,.75,.25,1); }
+  .anim .hero #positioning { animation: aUp .8s .30s both cubic-bezier(.2,.75,.25,1); }
+  .anim .hero #focus       { animation: aUp .8s .38s both cubic-bezier(.2,.75,.25,1); }
+  .anim .hero #roleline    { animation: aUp .8s .46s both cubic-bezier(.2,.75,.25,1); }
+  .anim .hero #heroActions { animation: aUp .8s .54s both cubic-bezier(.2,.75,.25,1); }
+  .anim .hero .heroPhoto   { animation: aPhoto 1s .28s both cubic-bezier(.2,.75,.25,1); }
+  @keyframes aUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+  @keyframes aPhoto { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: none; } }
+
+  /* Profile photo HUD — corner brackets draw in, then a repeating lime scan sweep */
+  .anim .heroPhoto::before, .anim .heroPhoto::after { animation: aBracket .55s .95s both; }
+  @keyframes aBracket { from { width: 0; height: 0; opacity: 0; } to { width: 20px; height: 20px; opacity: 1; } }
+  #photo::after {
+    content: ''; position: absolute; left: 0; right: 0; top: -15%; height: 34%; z-index: 3; pointer-events: none;
+    background: linear-gradient(to bottom, rgba(201, 242, 77, .22), transparent 72%);
+    border-top: 1.5px solid #c9f24d; opacity: 0;
+  }
+  .anim #photo::after { animation: aScan 5s 1.5s cubic-bezier(.45,0,.4,1) infinite; }
+  @keyframes aScan {
+    0% { top: -18%; opacity: 0; } 7% { opacity: .8; } 46% { opacity: .8; }
+    54% { top: 108%; opacity: 0; } 100% { top: 108%; opacity: 0; }
+  }
+
+  /* Availability dot — pulsing signal ring */
+  .anim .herobadge > span:first-child { animation: aPulse 2.2s ease-out infinite; }
+  @keyframes aPulse {
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 55%, transparent); }
+    70% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--color-accent) 0%, transparent); }
+    100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 0%, transparent); }
+  }
+
+  /* Scroll reveal — section intros (kicker + title) */
+  .anim .reveal > .kicker, .anim .reveal > .h2 { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+  .anim .reveal.in > .kicker { opacity: 1; transform: none; }
+  .anim .reveal.in > .h2 { opacity: 1; transform: none; transition-delay: .08s; }
+
+  /* Scroll reveal — staggered children of persistent containers */
+  .anim .stagger > * { opacity: 0; transform: translateY(22px); transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); }
+  .anim .stagger.in > * { opacity: 1; transform: none; }
+  .anim .stagger.in > *:nth-child(1) { transition-delay: .04s; }
+  .anim .stagger.in > *:nth-child(2) { transition-delay: .10s; }
+  .anim .stagger.in > *:nth-child(3) { transition-delay: .16s; }
+  .anim .stagger.in > *:nth-child(4) { transition-delay: .22s; }
+  .anim .stagger.in > *:nth-child(5) { transition-delay: .28s; }
+  .anim .stagger.in > *:nth-child(6) { transition-delay: .34s; }
+  .anim .stagger.in > *:nth-child(7) { transition-delay: .40s; }
+  .anim .stagger.in > *:nth-child(8) { transition-delay: .46s; }
+  .anim .stagger.in > *:nth-child(n+9) { transition-delay: .52s; }
+
+  /* Nav — animated underline + scroll-spy active state */
+  .navlink { position: relative; }
+  .navlink::after { content: ''; position: absolute; left: 0; right: 0; bottom: -5px; height: 2px; background: var(--color-accent); transform: scaleX(0); transform-origin: left; transition: transform .28s ease; }
+  .navlink:hover::after, .navlink.active::after { transform: scaleX(1); }
+  .navlink.active { color: var(--color-accent-700); }
+
+  /* Header condenses on scroll */
+  header { transition: box-shadow .3s ease, background .3s ease; }
+  header.scrolled { box-shadow: var(--shadow-md); }
+
+  /* Card micro-interactions */
+  #rest .card, .fcard, #timeline .card, #education .card { transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
+  #rest .card:hover, .fcard:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--color-accent) 45%, var(--color-divider)); box-shadow: var(--shadow-md); }
+  #timeline .card:hover, #education .card:hover { border-color: color-mix(in srgb, var(--color-accent) 40%, var(--color-divider)); }
+  .shot img, .ss img { transition: transform .6s cubic-bezier(.2,.7,.2,1), opacity .4s ease; }
+  #rest .card:hover .shot img, .fcard:hover .ss img, .fcard:hover .shot img { transform: scale(1.05); }
+  .btn-primary { transition: background .15s, border-color .15s, transform .15s ease, box-shadow .2s ease; }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 18px color-mix(in srgb, var(--color-accent) 30%, transparent); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .anim .reveal > .kicker, .anim .reveal > .h2, .anim .stagger > * { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .anim .hero .herobadge, .anim .hero #headline, .anim .hero #positioning, .anim .hero #focus, .anim .hero #roleline,
+    .anim .hero #heroActions, .anim .hero .heroPhoto, .anim .heroPhoto::before, .anim .heroPhoto::after,
+    .anim #photo::after, .anim #photo, .anim .herobadge > span:first-child { animation: none !important; }
+    #photo::after { display: none !important; }
+    .btn-primary:hover, #rest .card:hover, .fcard:hover { transform: none !important; }
+  }
+</style>
+<script>
+  /* Enable motion styling before first paint (no reveal flash). Failsafe: if the
+     main motion script never runs, force everything visible so nothing is stuck hidden. */
+  document.documentElement.classList.add('anim');
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      if (window.__animOK) return;
+      document.querySelectorAll('.reveal, .stagger').forEach(function (el) { el.classList.add('in'); });
+    }, 2500);
+  });
+</script>
+</head>
+<body>
+
+<div style="background: var(--color-bg); min-height: 100vh; padding-bottom: 80px">
+
+  <header style="position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--color-bg) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--color-divider)">
+    <div class="hdrwrap" style="max-width: 1180px; margin: 0 auto; padding: 14px clamp(18px, 4vw, 32px); display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px">
+      <a class="hdrbrand" href="#top" style="font-family: var(--font-heading); font-size: 21px; color: var(--color-text); letter-spacing: .2px">Vedant Chavan</a>
+      <nav id="nav" style="margin-left: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px"></nav>
+      <div class="hdrtools" style="display: flex; align-items: center; gap: 10px">
+        <div style="display: flex; gap: 3px; padding: 3px; background: var(--color-neutral-200); border-radius: 999px; border: 1px solid var(--color-divider)">
+          <button data-lang="en" id="btnEn">EN</button>
+          <button data-lang="de" id="btnDe">DE</button>
+        </div>
+        <button id="themeBtn" aria-label="Toggle theme"></button>
+      </div>
+    </div>
+  </header>
+
+  <section id="top" class="hero" style="max-width: 1180px; margin: 0 auto; padding: clamp(44px, 7vw, 76px) clamp(18px, 4vw, 32px) 40px; display: flex; flex-wrap: wrap; gap: clamp(28px, 4vw, 56px); align-items: center">
+    <div class="herotext" style="flex: 3 1 330px; min-width: 0">
+      <div class="herobadge" style="display: inline-flex; align-items: center; gap: 9px; padding: 6px 14px 6px 10px; border-radius: 999px; background: var(--color-accent-2-200); color: var(--color-accent-2-800); font-size: 13.5px; font-weight: 600; margin-bottom: 26px">
+        <span style="width: 8px; height: 8px; border-radius: 999px; background: var(--color-accent-2-600); display: block"></span>
+        <span id="available"></span>
+      </div>
+      <h1 id="headline" style="font-family: var(--font-heading); font-weight: 400; font-size: clamp(32px, 5vw, 52px); line-height: 1.08; margin: 0 0 22px; letter-spacing: -.5px; max-width: 15em"></h1>
+      <p id="positioning" style="font-size: 17.5px; line-height: 1.62; color: var(--color-neutral-800); margin: 0 0 20px; max-width: 46em"></p>
+      <div id="focus" style="display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px"></div>
+      <p id="roleline" style="margin: 0 0 30px"></p>
+      <div id="heroActions" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center"></div>
+    </div>
+    <div class="heroPhoto" style="position: relative; flex: 1 1 230px; max-width: 340px; display: flex; justify-content: center">
+      <div style="position: absolute; inset: 0; border-radius: 999px; background: var(--color-neutral-200); box-shadow: var(--shadow-md); outline: 1px solid var(--color-divider); outline-offset: 10px"></div>
+      <div id="photo" style="position: relative; width: 100%; aspect-ratio: 1; border-radius: 999px; overflow: hidden"></div>
+    </div>
+  </section>
+
+  <section style="max-width: 1180px; margin: 0 auto; padding: 24px clamp(18px, 4vw, 32px) 84px">
+    <div id="proof" class="stagger" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 18px; padding: clamp(22px, 3vw, 30px) clamp(20px, 3vw, 34px); background: var(--color-surface); border-radius: var(--radius-lg)"></div>
+  </section>
+
+  <section id="about" class="sec reveal">
+    <p class="kicker" data-k="about-kicker"></p>
+    <h2 class="h2" data-k="about-title"></h2>
+    <div class="stagger" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 48px">
+      <div id="aboutBody" style="display: flex; flex-direction: column; gap: 18px"></div>
+      <div style="display: flex; flex-direction: column; gap: 22px">
+        <div>
+          <h3 class="side-h" data-k="edu-label" style="font-family: var(--font-heading); font-weight: 400; font-size: 17px; margin: 0 0 12px"></h3>
+          <div id="education" style="display: flex; flex-direction: column; gap: 10px"></div>
+        </div>
+        <div>
+          <h3 class="side-h" data-k="lang-label" style="font-family: var(--font-heading); font-weight: 400; font-size: 17px; margin: 0 0 12px"></h3>
+          <div id="languages" style="display: flex; flex-wrap: wrap; gap: 8px"></div>
+        </div>
+        <div>
+          <h3 class="side-h" data-k="cert-label" style="font-family: var(--font-heading); font-weight: 400; font-size: 17px; margin: 0 0 12px"></h3>
+          <div id="certs" style="display: flex; flex-direction: column; gap: 8px"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work" class="sec reveal">
+    <p class="kicker" data-k="work-kicker"></p>
+    <h2 class="h2" data-k="work-title"></h2>
+    <div id="featured" class="stagger" style="display: flex; flex-direction: column; gap: 30px"></div>
+  </section>
+
+  <section id="experience" class="sec reveal">
+    <p class="kicker" data-k="exp-kicker"></p>
+    <h2 class="h2" data-k="exp-title"></h2>
+    <div id="timeline" class="stagger" style="display: flex; flex-direction: column; gap: 14px; border-left: 2px solid var(--color-accent-2-300); padding-left: 34px; margin-left: 8px"></div>
+  </section>
+
+  <section id="skills" class="sec reveal">
+    <p class="kicker" data-k="skills-kicker"></p>
+    <h2 class="h2" data-k="skills-title"></h2>
+    <div id="skills-grid" class="sklist stagger"></div>
+  </section>
+
+  <section class="sec reveal">
+    <p class="kicker" data-k="more-kicker"></p>
+    <h2 class="h2" data-k="more-title" style="margin-bottom: 24px"></h2>
+    <div id="filters" style="display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 30px"></div>
+    <div id="rest" class="stagger" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px"></div>
+  </section>
+
+  <section id="contact" style="max-width: 1180px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 32px)">
+    <div class="stagger" style="background: var(--color-accent-2-200); border-radius: var(--radius-lg); padding: clamp(30px, 4vw, 52px) clamp(22px, 4vw, 48px); display: flex; flex-wrap: wrap; gap: clamp(28px, 4vw, 48px); align-items: flex-start">
+      <div style="flex: 1 1 320px; min-width: 0">
+        <p style="font-size: 13.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--color-accent-2-800); margin: 0 0 8px" data-k="contact-kicker"></p>
+        <h2 style="font-family: var(--font-heading); font-weight: 400; font-size: clamp(28px, 4.4vw, 40px); margin: 0 0 16px" data-k="contact-title"></h2>
+        <p id="contactBlurb" style="font-size: 17px; line-height: 1.62; color: var(--color-accent-2-900); margin: 0; max-width: 30em"></p>
+      </div>
+      <form id="contactForm" style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+        <label class="field" style="display: block">
+          <span data-k="f-name" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px"></span>
+          <input class="input" name="name" type="text" required style="width: 100%">
+        </label>
+        <label class="field" style="display: block">
+          <span data-k="f-email" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px"></span>
+          <input class="input" name="email" type="email" required style="width: 100%">
+        </label>
+        <label class="field" style="display: block">
+          <span data-k="f-message" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px"></span>
+          <textarea class="input" name="message" rows="4" required style="width: 100%; border-radius: var(--radius-md); resize: vertical"></textarea>
+        </label>
+        <button class="btn btn-primary" type="submit" data-k="send" style="align-self: flex-start"></button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="stagger" style="max-width: 1180px; margin: 0 auto; padding: 44px clamp(18px, 4vw, 32px) 0; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; font-size: 14px; color: var(--color-neutral-600)">
+    <span>© 2026 Vedant Chavan</span>
+    <a id="fLinkedIn" target="_blank" rel="noopener" style="margin-left: auto">LinkedIn</a>
+    <a id="fGitHub" target="_blank" rel="noopener">GitHub</a>
+    <a href="studio.html" id="fStudio">Edit content</a>
+  </footer>
+
+</div>
+
+<script src="content.js"></script>
+<script>
+(function () {
+const content = window.VC.content, t = window.VC.t, tList = window.VC.tList;
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+let C = content;
+try { const raw = localStorage.getItem('vc-content'); if (raw) C = JSON.parse(raw); } catch (e) {}
+
+let lang = 'en', theme = 'dark';
+try {
+  lang = localStorage.getItem('vc-lang') || 'en';
+  theme = localStorage.getItem('vc-theme') || 'dark';
+} catch (e) {}
+
+const open = {};
+let filter = null;
+
+const SUN = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>';
+const MOON = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5z"></path></svg>';
+
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', theme);
+  document.documentElement.style.colorScheme = theme;
+  const b = $('#themeBtn');
+  b.innerHTML = theme === 'dark' ? SUN : MOON;
+  b.title = theme === 'dark' ? 'Switch to light' : 'Switch to dark';
+}
+
+function labels() {
+  const de = lang === 'de';
+  return {
+    more: 'Details ↓', less: de ? 'Zuklappen ↑' : 'Hide ↑',
+    contact: de ? 'Kontakt' : 'Get in touch',
+    edu: de ? 'Ausbildung' : 'Education',
+    langs: de ? 'Sprachen' : 'Languages',
+    certs: de ? 'Zertifikate' : 'Certifications',
+    all: de ? 'Alle' : 'All',
+    studio: de ? 'Inhalte bearbeiten' : 'Edit content',
+    expMore: de ? 'Details ansehen ↓' : 'See the work ↓',
+    expLess: de ? 'Schließen ↑' : 'Close ↑',
+    viewWork: de ? 'Projekte ansehen ↓' : 'View work ↓'
+  };
+}
+
+const pill = 'all: unset; cursor: pointer; padding: 6px 14px; border-radius: var(--radius-sm); font-size: 12.5px; font-weight: 500; font-family: var(--font-mono); letter-spacing: .03em';
+const chip = 'all: unset; cursor: pointer; padding: 7px 13px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; font-family: var(--font-mono); border: 1px solid var(--color-divider)';
+
+function detailPanel(items, metrics, stack, compact) {
+  if (!items.length && !stack) return '';
+  const mets = (metrics || []).filter(m => m && m.value);
+  return '<div class="dp' + (compact ? ' dpc' : '') + '">' +
+    (mets.length && !compact ? '<div class="dmet">' + mets.map(m =>
+      '<div><div class="dmetv">' + esc(m.value) + '</div><div class="dmetl">' + esc(t(m.label, lang)) + '</div></div>').join('') + '</div>' : '') +
+    (items.length ? '<ul class="dl">' + items.map(d => '<li><span>' + esc(d) + '</span></li>').join('') + '</ul>' : '') +
+    (stack ? '<div class="dstack"><span class="dstackl">Stack</span>' +
+      stack.split('·').map(s => s.trim()).filter(Boolean).map(s => '<span class="tag tag-neutral">' + esc(s) + '</span>').join('') + '</div>' : '') +
+    '</div>';
+}
+
+const slidePos = {};
+
+function slideshow(id, images, ratio) {
+  const pos = slidePos[id] || 0;
+  const imgs = images.map((im, i) =>
+    '<img src="' + esc(im.src) + '" alt="' + esc(im.alt || '') + '"' + (i ? ' loading="lazy"' : '') +
+    ' style="opacity: ' + (i === pos ? 1 : 0) +
+    (im.fit === 'contain' ? '; object-fit: contain; background: #fff; padding: 10px' : '') + '">').join('');
+  const dots = images.map((im, i) =>
+    '<button class="ssdot" data-ssdot="' + id + ':' + i + '" aria-current="' + (i === pos) + '" aria-label="Image ' + (i + 1) + '"></button>').join('');
+  return '<div data-ssgroup="' + id + '">' +
+    '<div class="ss washed" style="aspect-ratio: ' + ratio + '">' + imgs +
+      (images.length > 1
+        ? '<div class="sscount">' + (pos + 1) + ' / ' + images.length + '</div>' +
+          '<button class="ssbtn ssprev" data-ssnav="' + id + ':-1" aria-label="Previous image">❮</button>' +
+          '<button class="ssbtn ssnext" data-ssnav="' + id + ':1" aria-label="Next image">❯</button>'
+        : '') +
+    '</div>' +
+    (images.length > 1
+      ? '<div class="ssfoot"><div class="ssdots">' + dots + '</div><div class="sscap">' + esc(images[pos].alt || '') + '</div></div>'
+      : (images[pos] && images[pos].alt ? '<div class="ssfoot"><div class="sscap">' + esc(images[pos].alt) + '</div></div>' : '')) +
+    '</div>';
+}
+
+function paintSlides(id) {
+  const g = document.querySelector('[data-ssgroup="' + id + '"]');
+  if (!g) return;
+  const pos = slidePos[id] || 0;
+  const imgs = g.querySelectorAll('.ss img');
+  imgs.forEach((im, i) => { im.style.opacity = i === pos ? 1 : 0; });
+  g.querySelectorAll('.ssdot').forEach((d, i) => d.setAttribute('aria-current', String(i === pos)));
+  const cnt = g.querySelector('.sscount');
+  if (cnt) cnt.textContent = (pos + 1) + ' / ' + imgs.length;
+  const cap = g.querySelector('.sscap');
+  if (cap && imgs[pos]) cap.textContent = imgs[pos].alt || '';
+}
+
+function media(p, id, ratio, fallbackAlt) {
+  const imgs = (p.images || []).filter(x => x && x.src);
+  if (imgs.length) return slideshow(id, imgs, ratio);
+  return '<div class="shot washed" style="aspect-ratio: ' + ratio + '">' +
+    (p.image ? '<img src="' + esc(p.image) + '" alt="' + esc(fallbackAlt) + '" loading="lazy">' : '') + '</div>';
+}
+
+function shot(src, alt, cls, ratio) {
+  return '<div class="shot washed ' + cls + '" style="aspect-ratio: ' + ratio + '">' +
+    (src ? '<img src="' + esc(src) + '" alt="' + esc(alt) + '" loading="lazy">' : '') + '</div>';
+}
+
+function projectCard(p, i, featured) {
+  const L = labels();
+  const key = 'p' + i;
+  const isOpen = !!open[key];
+  const idx = ('0' + (i + 1)).slice(-2);
+  const mets = (p.metrics || []).filter(m => m && m.value);
+  const primary = (p.links && p.links[0]) ? p.links[0] : null;
+  const tags = (p.tags || []).map(x => '<span class="tag ' + (featured ? 'tag-outline' : 'tag-neutral') + '">' + esc(x) + '</span>').join('');
+  const panel = isOpen ? detailPanel(tList(p.detail, lang), p.metrics, '', !featured) : '';
+  const links = (p.links || []).map(l => '<a class="btn btn-secondary" href="' + esc(l.href) + '" target="_blank" rel="noopener">' + esc(t(l.label, lang)) + '</a>').join('');
+  const actions = '<div style="display: flex; flex-wrap: wrap; gap: 10px' + (featured ? '' : '; margin-top: auto') + '">' +
+    '<button class="btn ' + (isOpen ? 'btn-secondary' : 'btn-ghost') + '" data-toggle="' + key + '" aria-expanded="' + isOpen + '">' +
+    (isOpen ? L.less : L.more) + '</button>' + links + '</div>';
+
+  if (featured) {
+    const fstats = mets.length ? '<div class="fstats">' + mets.map(m =>
+      '<div class="fstat"><span class="fstatv">' + esc(m.value) + '</span><span class="fstatl">' + esc(t(m.label, lang)) + '</span></div>').join('') + '</div>' : '';
+    const blurb = t(p.blurb, lang);
+    return '<article class="card fcard">' +
+      '<div class="fmedia">' + media(p, 'sp' + i, '16/11', t(p.title, lang)) + '</div>' +
+      '<div class="fbody">' +
+        '<div class="fidx"><span class="fidxn">' + idx + '</span></div>' +
+        '<h3 class="ftitle">' + esc(t(p.title, lang)) + '</h3>' +
+        '<p class="fout">' + esc(t(p.outcome, lang)) + '</p>' +
+        fstats +
+        (blurb ? '<p class="fblurb">' + esc(blurb) + '</p>' : '') +
+        '<div class="ftags">' + tags + '</div>' +
+        '<div class="factions">' +
+          '<button class="btn ' + (isOpen ? 'btn-secondary' : 'btn-ghost') + '" data-toggle="' + key + '" aria-expanded="' + isOpen + '">' +
+          (isOpen ? L.less : L.more) + '</button>' + links +
+        '</div>' +
+      '</div>' +
+      (panel ? '<div class="fpanel">' + panel + '</div>' : '') +
+      '</article>';
+  }
+  return '<article class="card pcard" style="padding: 14px; border-radius: var(--radius-lg); display: flex; flex-direction: column; gap: 13px">' +
+    '<div class="shot washed pshot" style="aspect-ratio: 16/10">' +
+      (p.image ? '<img src="' + esc(p.image) + '" alt="' + esc(t(p.title, lang)) + '" loading="lazy">' : '') +
+      '<span class="pidx">' + idx + '</span>' +
+      (primary ? '<a class="poverlay" href="' + esc(primary.href) + '" target="_blank" rel="noopener" aria-label="' + esc(t(primary.label, lang)) + '"><span>' + esc(t(primary.label, lang)) + ' &#8599;</span></a>' : '') +
+    '</div>' +
+    '<div><h3 class="ptitle">' + esc(t(p.title, lang)) + '</h3>' +
+    '<p class="pout">' + esc(t(p.outcome, lang)) + '</p></div>' +
+    '<div class="ptags">' + tags + '</div>' + panel + actions + '</article>';
+}
+
+function render() {
+  const L = labels();
+  const P = C.profile;
+  const de = lang === 'de';
+
+  $('#btnEn').style.cssText = pill + (lang === 'en' ? '; background: var(--color-accent); color: var(--color-bg)' : '; color: var(--color-neutral-600)');
+  $('#btnDe').style.cssText = pill + (lang === 'de' ? '; background: var(--color-accent); color: var(--color-bg)' : '; color: var(--color-neutral-600)');
+  document.documentElement.lang = lang;
+
+  $('#nav').innerHTML = (C.nav || []).map(n => '<a class="navlink" href="#' + esc(n.id) + '">' + esc(t(n.label, lang)) + '</a>').join('');
+
+  $('#available').textContent = t(P.available, lang);
+  const hlWord = de ? '3D-Wahrnehmungssysteme' : '3D perception';
+  const hTxt = esc(t(P.headline, lang));
+  $('#headline').innerHTML = hTxt.replace(esc(hlWord), '<span class="hl">' + esc(hlWord) + '</span>');
+  $('#positioning').textContent = t(P.positioning, lang);
+  $('#focus').innerHTML = (P.focus || []).map(f => '<span class="fchip">' + esc(t(f, lang)) + '</span>').join('');
+  $('#roleline').textContent = t(P.location, lang);
+
+  const photo = theme === 'dark' ? P.photo : (P.photoLight || P.photo);
+  $('#photo').innerHTML = photo ? '<img src="' + esc(photo) + '" alt="' + esc(P.name) + '" style="width: 100%; height: 100%; object-fit: cover; display: block">' : '';
+
+  $('#heroActions').innerHTML =
+    '<a class="btn btn-primary" href="#work" style="flex: none; white-space: nowrap">' + L.viewWork + '</a>' +
+    '<div class="heroend" style="display: flex; align-items: center; gap: 10px; flex: none">' +
+    '<a class="btn btn-secondary" href="#contact" style="flex: none; white-space: nowrap">' + L.contact + '</a>' +
+    '<div class="herosocial" style="display: flex; gap: 8px">' +
+      '<a class="btn btn-icon" href="' + esc(P.linkedin) + '" target="_blank" rel="noopener" aria-label="LinkedIn"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg></a>' +
+      '<a class="btn btn-icon" href="' + esc(P.github) + '" target="_blank" rel="noopener" aria-label="GitHub"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg></a>' +
+    '</div></div>';
+
+  $('#proof').innerHTML = (P.proof || []).map(p =>
+    '<div><div class="proofv">' + esc(p.value) + '</div><div class="proofl">' + esc(t(p.label, lang)) + '</div></div>').join('');
+
+  const S = C.sections;
+  const K = {
+    'about-kicker': t(S.about.kicker, lang), 'about-title': t(S.about.title, lang),
+    'work-kicker': t(S.work.kicker, lang), 'work-title': t(S.work.title, lang),
+    'exp-kicker': t(S.experience.kicker, lang), 'exp-title': t(S.experience.title, lang),
+    'skills-kicker': t(S.skills.kicker, lang), 'skills-title': t(S.skills.title, lang),
+    'more-kicker': t(S.more.kicker, lang), 'more-title': t(S.more.title, lang),
+    'contact-kicker': t(S.contact.kicker, lang), 'contact-title': t(S.contact.title, lang),
+    'edu-label': L.edu, 'lang-label': L.langs, 'cert-label': L.certs,
+    'f-name': t(C.contact.fields.name, lang), 'f-email': t(C.contact.fields.email, lang),
+    'f-message': t(C.contact.fields.message, lang), 'send': t(C.contact.send, lang)
+  };
+  document.querySelectorAll('[data-k]').forEach(el => { el.textContent = K[el.dataset.k] || ''; });
+
+  $('#aboutBody').innerHTML = (C.about.image
+    ? '<div class="shot washed" style="aspect-ratio: 3/2; margin-bottom: 4px"><img src="' + esc(C.about.image) + '" alt="' + esc(P.name) + '" loading="lazy"></div>'
+    : '') + t(C.about.body, lang).split('\n\n').filter(Boolean)
+    .map(p => '<p style="font-size: 17px; line-height: 1.68; color: var(--color-neutral-800); margin: 0; max-width: 40em">' + esc(p) + '</p>').join('');
+
+  $('#education').innerHTML = (C.about.education || []).map(e =>
+    '<a class="card" href="' + esc(e.href) + '" target="_blank" rel="noopener" style="padding: 16px 18px; border-radius: var(--radius-md); display: block; color: var(--color-text)">' +
+    '<div style="font-weight: 700; font-size: 15.5px">' + esc(t(e.degree, lang)) + '</div>' +
+    '<div style="font-size: 13.5px; color: var(--color-neutral-600); margin-top: 3px">' + esc(e.school) + '</div></a>').join('');
+
+  $('#languages').innerHTML = (C.about.languages || []).map(l =>
+    '<span class="tag tag-accent">' + esc(t(l.name, lang) + ' · ' + t(l.level, lang)) + '</span>').join('');
+
+  $('#certs').innerHTML = (C.about.certifications || []).map(c =>
+    '<a class="certrow" href="' + esc(c.href) + '" target="_blank" rel="noopener" style="display: flex; justify-content: space-between; gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--color-divider); color: var(--color-text); font-size: 14.5px">' +
+    '<span>' + esc(t(c.name, lang)) + '</span><span style="color: var(--color-neutral-600)">' + esc(c.issuer) + '</span></a>').join('');
+
+  const projects = C.projects || [];
+  $('#featured').innerHTML = projects.filter(p => p.featured).map(p => projectCard(p, projects.indexOf(p), true)).join('');
+
+  const others = projects.filter(p => !p.featured);
+  const counts = {};
+  others.forEach(p => (p.tags || []).forEach(x => { counts[x] = (counts[x] || 0) + 1; }));
+  const top = Object.keys(counts).sort((a, b) => counts[b] - counts[a]).slice(0, 7);
+  $('#filters').innerHTML = [{ name: L.all, key: '' }].concat(top.map(x => ({ name: x, key: x }))).map(f =>
+    '<button data-filter="' + esc(f.key) + '" style="' + chip + ((filter || '') === f.key
+      ? '; background: var(--color-accent); color: var(--color-bg); border-color: var(--color-accent)'
+      : '; background: transparent; color: var(--color-neutral-600)') + '">' + esc(f.name) + '</button>').join('');
+
+  const shown = filter ? others.filter(p => (p.tags || []).indexOf(filter) >= 0) : others;
+  $('#rest').innerHTML = shown.map(p => projectCard(p, projects.indexOf(p), false)).join('');
+
+  $('#timeline').innerHTML = (C.experience || []).map((e, i) => {
+    const isOpen = !!open['e' + i];
+    const imgs = (e.images || []).filter(x => x && x.src);
+    const body = isOpen ? '<div class="exbody">' +
+      (imgs.length ? '<div style="min-width: 0">' + slideshow('se' + i, imgs, '16/10') + '</div>' : '') +
+      '<div style="min-width: 0">' + detailPanel(tList(e.detail, lang), null, e.stack || '', false) + '</div>' +
+      '</div>' : '';
+    return '<div style="position: relative">' +
+      '<span style="position: absolute; left: -43px; top: 26px; width: 16px; height: 16px; border-radius: 999px; background: var(--color-accent-2-500); border: 3px solid var(--color-bg)"></span>' +
+      '<div class="card" style="padding: 24px 26px; border-radius: var(--radius-lg)">' +
+      '<button data-toggle="e' + i + '" style="all: unset; cursor: pointer; display: block; width: 100%">' +
+        '<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 8px">' +
+          '<span style="font-family: var(--font-heading); font-size: 15px; color: var(--color-accent-700)">' + esc(e.org) + '</span>' +
+          '<span style="font-size: 13.5px; color: var(--color-neutral-600)">' + esc(e.place) + '</span>' +
+          '<span class="exdate" style="margin-left: auto; font-size: 13.5px; font-weight: 600; color: var(--color-neutral-700)">' + esc(t(e.dates, lang)) + '</span>' +
+        '</div>' +
+        '<h3 style="font-family: var(--font-heading); font-weight: 400; font-size: 23px; line-height: 1.25; margin: 0 0 10px">' + esc(t(e.role, lang)) + '</h3>' +
+        '<p style="font-size: 15.5px; line-height: 1.6; color: var(--color-neutral-800); margin: 0">' + esc(t(e.summary, lang)) + '</p>' +
+        '<span style="display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 600; color: var(--color-accent-700)">' + (isOpen ? L.expLess : L.expMore) + '</span>' +
+      '</button>' + body + '</div></div>';
+  }).join('');
+
+  $('#skills-grid').innerHTML = (C.skills || []).map(s => {
+    const items = s.items || [];
+    return '<div class="skrow">' +
+      '<h3 class="skname">' + esc(t(s.group, lang)) + '</h3>' +
+      '<div class="skchips">' + items.map(x => '<span class="skchip">' + esc(x) + '</span>').join('') + '</div></div>';
+  }).join('');
+
+  $('#contactBlurb').textContent = t(C.contact.blurb, lang);
+  $('#fLinkedIn').href = P.linkedin;
+  $('#fGitHub').href = P.github;
+  $('#fStudio').textContent = L.studio;
+  document.title = P.name + ' — ' + t(P.role, lang);
+}
+
+document.addEventListener('click', (ev) => {
+  const tgl = ev.target.closest('[data-toggle]');
+  if (tgl) { const k = tgl.dataset.toggle; open[k] = !open[k]; render(); return; }
+  const f = ev.target.closest('[data-filter]');
+  if (f) { filter = f.dataset.filter || null; render(); return; }
+  const nav = ev.target.closest('[data-ssnav]');
+  if (nav) {
+    const parts = nav.dataset.ssnav.split(':');
+    const id = parts[0], step = +parts[1];
+    const n = document.querySelectorAll('[data-ssgroup="' + id + '"] .ss img').length;
+    slidePos[id] = ((slidePos[id] || 0) + step + n) % n;
+    paintSlides(id);
+    return;
+  }
+  const dot = ev.target.closest('[data-ssdot]');
+  if (dot) {
+    const parts = dot.dataset.ssdot.split(':');
+    slidePos[parts[0]] = +parts[1];
+    paintSlides(parts[0]);
+    return;
+  }
+  const lg = ev.target.closest('[data-lang]');
+  if (lg) {
+    lang = lg.dataset.lang;
+    try { localStorage.setItem('vc-lang', lang); } catch (e) {}
+    render();
+  }
+});
+
+$('#themeBtn').addEventListener('click', () => {
+  theme = theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('vc-theme', theme); } catch (e) {}
+  applyTheme(); render();
+});
+
+$('#contactForm').addEventListener('submit', (ev) => {
+  ev.preventDefault();
+  const f = ev.target;
+  window.location.href = 'mailto:' + C.profile.email +
+    '?subject=' + encodeURIComponent('Portfolio — ' + (f.name.value || '')) +
+    '&body=' + encodeURIComponent((f.message.value || '') + '\n\n' + (f.email.value || ''));
+});
+
+window.addEventListener('storage', () => {
+  try { const raw = localStorage.getItem('vc-content'); if (raw) { C = JSON.parse(raw); render(); } } catch (e) {}
+});
+
+applyTheme();
+render();
+})();
+</script>
+<script>
+/* Motion driver — scroll reveals, metric count-up, role-line decode, scroll-spy,
+   header condense. Anchored on persistent elements; safe across re-renders. */
+(function () {
+  var root = document.documentElement;
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  try {
+    window.__animOK = true;
+
+    // Reveal persistent sections + staggered containers once.
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    document.querySelectorAll('.reveal, .stagger').forEach(function (el) { io.observe(el); });
+
+    // Count metric readouts up when the stat band enters view (once).
+    var proof = document.getElementById('proof');
+    if (proof && !reduce) {
+      var cio = new IntersectionObserver(function (entries) {
+        if (!entries.some(function (e) { return e.isIntersecting; })) return;
+        cio.disconnect();
+        proof.querySelectorAll('.proofv').forEach(function (node) {
+          var txt = node.textContent.trim();
+          var m = txt.match(/^(\D*)(\d[\d.,]*)(.*)$/);
+          if (!m) return;
+          var pre = m[1], suf = m[3], raw = m[2].replace(/,/g, '');
+          var target = parseFloat(raw);
+          if (!isFinite(target)) return;
+          var dec = raw.indexOf('.') >= 0 ? 1 : 0, dur = 1100, start = null;
+          node.textContent = pre + '0' + suf;
+          requestAnimationFrame(function step(ts) {
+            if (start === null) start = ts;
+            var p = Math.min((ts - start) / dur, 1);
+            var v = target * (1 - Math.pow(1 - p, 3));
+            node.textContent = pre + (dec ? v.toFixed(1) : Math.round(v)) + suf;
+            if (p < 1) requestAnimationFrame(step); else node.textContent = txt;
+          });
+        });
+      }, { threshold: 0.4 });
+      cio.observe(proof);
+    }
+
+    // Decode the role line from scrambled glyphs (once).
+    var role = document.getElementById('roleline');
+    if (role && !reduce) {
+      var full = role.textContent, glyphs = '01<>/{}[]#$%&*+=-_:.', frame = 0, len = full.length;
+      (function scramble() {
+        var out = '';
+        for (var i = 0; i < len; i++) {
+          var ch = full[i];
+          if (ch === ' ' || ch === '·') { out += ch; }
+          else if (i < frame) { out += ch; }
+          else { out += glyphs[(Math.random() * glyphs.length) | 0]; }
+        }
+        role.textContent = out;
+        if (frame++ <= len) setTimeout(scramble, 26); else role.textContent = full;
+      })();
+    }
+
+    // Scroll-spy nav + header condense.
+    var header = document.querySelector('header');
+    var secs = ['about', 'work', 'experience', 'skills', 'contact']
+      .map(function (id) { return document.getElementById(id); })
+      .filter(Boolean);
+    function onScroll() {
+      if (header) header.classList.toggle('scrolled', window.scrollY > 12);
+      var pos = window.scrollY + 130, active = null;
+      secs.forEach(function (s) { if (s.offsetTop <= pos) active = s.id; });
+      document.querySelectorAll('.navlink').forEach(function (a) {
+        a.classList.toggle('active', (a.getAttribute('href') || '') === '#' + active);
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  } catch (err) {
+    root.classList.remove('anim'); // never leave content stuck hidden
+  }
+})();
+</script>
+</body>
+</html>
