@@ -1,0 +1,262 @@
+/* Instrument — design-system tokens and component classes. Technical, high-contrast,
+   monospace-labelled. This file is the source of truth for the system's look. */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* Light theme (base). Dark theme overrides these in index.html and is the default. */
+  --color-bg: #f6f7f5;
+  --color-surface: #ffffff;
+  --color-text: #14161a;
+  --color-accent: #4e6b12;      /* readable dark-lime for text/fills on light */
+  --color-accent-2: #5a616b;    /* neutral slate — a second surface tone, not a 2nd hue */
+  --color-divider: color-mix(in srgb, #14161a 12%, transparent);
+
+  /* Neutral ramp — cool grays. 100 sits just above the ground, 900 ≈ text. */
+  --color-neutral-100: #f0f1ef;
+  --color-neutral-200: #e6e7e4;
+  --color-neutral-300: #d3d5d1;
+  --color-neutral-400: #b0b3ae;
+  --color-neutral-500: #7f8479;
+  --color-neutral-600: #5f6459;
+  --color-neutral-700: #464a41;
+  --color-neutral-800: #2c2f29;
+  --color-neutral-900: #161814;
+
+  /* Accent ramp — lime/olive. On light, high steps stay dark enough to read as text. */
+  --color-accent-100: #f2f8dc;
+  --color-accent-200: #e4f1b8;
+  --color-accent-300: #cde382;
+  --color-accent-400: #a9c63f;
+  --color-accent-500: #7a9e1e;
+  --color-accent-600: #5e7c14;
+  --color-accent-700: #47600f;
+  --color-accent-800: #35480b;
+  --color-accent-900: #253206;
+
+  /* Accent-2 ramp — slate neutrals (used for panels/badges, not as a competing color). */
+  --color-accent-2-100: #eef0ee;
+  --color-accent-2-200: #e3e5e3;
+  --color-accent-2-300: #d0d3d0;
+  --color-accent-2-400: #aeb2ae;
+  --color-accent-2-500: #7d827d;
+  --color-accent-2-600: #5d625d;
+  --color-accent-2-700: #444843;
+  --color-accent-2-800: #2b2e2b;
+  --color-accent-2-900: #181a18;
+
+  --font-heading: "Space Grotesk", system-ui, sans-serif;
+  --font-heading-weight: 600;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --space-1: 4.4px;
+  --space-2: 8.8px;
+  --space-3: 13.2px;
+  --space-4: 17.6px;
+  --space-6: 26.4px;
+  --space-8: 35.2px;
+
+  --radius-sm: 5px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Elevation — kept subtle; the system reads depth from hairline borders, not shadow. */
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #161814 10%, transparent);
+  --shadow-md: 0 4px 16px color-mix(in srgb, #161814 12%, transparent);
+  --shadow-lg: 0 18px 44px color-mix(in srgb, #161814 16%, transparent);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: var(--font-heading-weight); }
+
+/* CV imagery reads sharp — only a whisper of unifying treatment. */
+.washed { filter: saturate(1.02) contrast(1.02); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Components — plain CSS on plain HTML. Labels, kickers, metrics and nav all run
+   in the mono face; headings in the grotesque; body in Inter.
+   ══════════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font-size: 15px; line-height: 1.6; font-weight: 400; }
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  line-height: 1.1; letter-spacing: -0.022em; margin: 0 0 var(--space-2);
+}
+h1 { font-size: 42px; }
+h2 { font-size: 32px; }
+h3 { font-size: 25px; }
+h4 { font-size: 20px; }
+h5 { font-size: 16px; }
+h6 {
+  font-family: var(--font-mono); font-weight: 500; font-size: 12px;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-neutral-600);
+}
+p { margin: 0 0 var(--space-3); }
+a { color: var(--color-accent); text-underline-offset: 3px; }
+img { display: block; max-width: 100%; }
+figure { margin: 0; }
+figcaption {
+  font-family: var(--font-mono); font-size: 11px; margin-top: var(--space-1);
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+.text-muted { color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+::selection { background: color-mix(in srgb, var(--color-accent) 32%, transparent); }
+
+/* — rules — */
+.hr {
+  height: 1px; border: 0; margin: var(--space-4) 0;
+  background: var(--color-divider);
+}
+
+/* — buttons — */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  cursor: pointer; text-decoration: none;
+  font-family: var(--font-mono); font-weight: 500;
+  font-size: 13px; letter-spacing: 0.01em; line-height: 1.2; color: var(--color-text);
+  background: transparent; border: 1px solid transparent;
+  padding: var(--space-2) calc(var(--space-3) * 1.15);
+  border-radius: var(--radius-sm);
+  transition: background .15s, border-color .15s, color .15s;
+}
+.btn svg { display: block; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary { background: var(--color-accent); color: var(--color-bg); border-color: var(--color-accent); }
+.btn-primary:hover { background: var(--color-accent-600); border-color: var(--color-accent-600); }
+.btn-primary:active { background: var(--color-accent-700); }
+.btn-secondary { border-color: var(--color-divider); color: var(--color-text); }
+.btn-secondary:hover { border-color: var(--color-accent); color: var(--color-accent); }
+.btn-secondary:active { background: color-mix(in srgb, var(--color-text) 8%, transparent); }
+.btn-ghost { color: var(--color-accent); padding-inline: var(--space-1); }
+.btn-ghost:hover { color: var(--color-accent-600); text-decoration: underline; }
+.btn-ghost:active { color: var(--color-accent-700); }
+.btn-icon { width: 36px; height: 36px; padding: 0; border-color: var(--color-divider); }
+.btn-icon:hover { border-color: var(--color-accent); color: var(--color-accent); }
+.btn-block { width: 100%; margin-top: var(--space-2); }
+
+/* — forms — */
+.field > label {
+  display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em;
+  text-transform: uppercase; margin-bottom: 6px;
+  color: color-mix(in srgb, var(--color-text) 65%, transparent);
+}
+.input {
+  width: 100%; min-height: 38px; padding: 8px 12px; font: inherit;
+  font-size: 14px; color: var(--color-text); caret-color: var(--color-accent);
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider); border-radius: var(--radius-sm);
+  transition: border-color .15s;
+}
+.input:hover { border-color: color-mix(in srgb, var(--color-text) 40%, transparent); }
+.input:focus-visible { border-color: var(--color-accent); outline: none; box-shadow: 0 0 0 1px var(--color-accent); }
+textarea.input { min-height: 96px; resize: vertical; }
+.radio { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; }
+.radio input, .seg-opt input {
+  position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none;
+}
+.radio .dot {
+  width: 16px; height: 16px; flex: none; border-radius: 50%;
+  border: 1.5px solid var(--color-divider);
+}
+.radio:hover .dot { border-color: var(--color-accent); }
+.radio input:checked + .dot {
+  border-color: var(--color-accent); background: var(--color-accent);
+  box-shadow: inset 0 0 0 4px var(--color-bg);
+}
+.radio input:focus-visible + .dot { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.seg {
+  display: inline-flex; overflow: hidden;
+  border: 1px solid var(--color-divider); border-radius: var(--radius-sm);
+}
+.seg-opt {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 12px; font-family: var(--font-mono); font-size: 12px; cursor: pointer;
+}
+.seg-opt + .seg-opt { border-left: 1px solid var(--color-divider); }
+.seg-opt:has(input:checked) { background: var(--color-accent); color: var(--color-bg); }
+.seg-opt:not(:has(input:checked)):hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.seg-opt:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: -2px; }
+
+/* — cards — */
+.card {
+  display: flex; flex-direction: column; gap: var(--space-2);
+  padding: var(--space-3); border-radius: var(--radius-md);
+  background: var(--color-surface); border: 1px solid var(--color-divider);
+}
+.card-kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-accent); }
+.card-title {
+  font-family: var(--font-heading); font-weight: 600;
+  font-size: 17px; line-height: 1.2; letter-spacing: -0.02em;
+}
+.card-body { margin: 0; font-size: 13px; color: var(--color-neutral-700); flex: 1; }
+.card-meta {
+  display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 11px;
+  color: color-mix(in srgb, var(--color-text) 50%, transparent);
+}
+.elev-sm { box-shadow: var(--shadow-sm); }
+.elev-md { box-shadow: var(--shadow-md); }
+.elev-lg { box-shadow: var(--shadow-lg); }
+
+/* — tags — mono, boxy, technical — */
+.tag {
+  display: inline-flex; align-items: center; font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.04em; text-transform: uppercase; padding: 3px 9px;
+  border-radius: var(--radius-sm);
+}
+.tag-accent { background: var(--color-accent-100); color: var(--color-accent-800); }
+.tag-accent-2 { background: var(--color-accent-2-100); color: var(--color-accent-2-800); }
+.tag-neutral { background: transparent; color: var(--color-neutral-700); border: 1px solid var(--color-divider); }
+.tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
+
+/* — navigation — */
+.nav {
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: none;
+}
+.nav-brand {
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: 18px; letter-spacing: -0.02em; margin-right: auto;
+}
+.nav a { color: inherit; text-decoration: none; font-family: var(--font-mono); font-size: 13px; }
+.nav a:hover, .nav a[aria-current='page'] { color: var(--color-accent); }
+
+/* — tables — */
+.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table th {
+  text-align: left; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 60%, transparent);
+  padding: var(--space-2); border-bottom: 1px solid var(--color-divider);
+}
+.table td {
+  padding: var(--space-2);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);
+}
+.table tbody tr:hover { background: color-mix(in srgb, var(--color-text) 4%, transparent); }
+
+/* — dialog — */
+.dialog-backdrop {
+  position: fixed; inset: 0; display: grid; place-items: center;
+  padding: var(--space-4);
+  background: color-mix(in srgb, #000 62%, transparent);
+}
+.dialog {
+  width: min(440px, 100%); display: flex; flex-direction: column; gap: var(--space-3);
+  padding: var(--space-4); border-radius: var(--radius-lg);
+  background: var(--color-surface); border: 1px solid var(--color-divider); box-shadow: var(--shadow-lg);
+}
+.dialog-title {
+  font-family: var(--font-heading); font-weight: 600; letter-spacing: -0.02em;
+  font-size: 20px;
+}
+.dialog-body { font-size: 14px; color: var(--color-neutral-700); }
+.dialog-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-2); }
